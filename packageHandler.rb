@@ -1,7 +1,7 @@
-require_relative "PolicyHandler/policyEntry.rb"
-require_relative "PolicyHandler/policyRule.rb"
-require_relative "PolicyHandler/policyTitle.rb"
-require_relative "PolicyHandler/policyHandler.rb"
+require_relative "CpPolicyHandler/CpPolicyEntry.rb"
+require_relative "CpPolicyHandler/CpPolicyRule.rb"
+require_relative "CpPolicyHandler/CpPolicyTitle.rb"
+require_relative "CpPolicyHandler/CpPolicyHandler.rb"
 require_relative "CpObjectsHandler/CpObjectsHandler.rb"
 require_relative "../topographer/graph/graph.rb"
 require "ipaddress"
@@ -17,11 +17,13 @@ class PackageHandler
             time_now = Time.now
 
         # Load Objects
+            print "Loading Objects . . . "
             @objects_handler = CpObjectsHandler.new "objects_5_0_core.c"
-            ap "Objects loaded: #{Time.now - time_now}s"; time_now = Time.now
+            puts "done: #{Time.now - time_now}s"; time_now = Time.now
 
         # Load policy
-            @policy_handler = PolicyHandler.from_file "standard-clone.pol"
+            print "Loading Policy . . . "
+            @policy_handler = CpPolicyHandler.from_file "standard-clone.pol"
 
             @policy_handler.rules.each do |rule|
                 sources = Array.new
@@ -38,7 +40,7 @@ class PackageHandler
                 rule.sources = sources
                 rule.destinations = destinations
             end
-            ap "Policy loaded: #{Time.now - time_now}s"; time_now = Time.now
+            puts "done: #{Time.now - time_now}s"; time_now = Time.now
     end
 
     def find_rules networks, in_src=true, in_dst=false

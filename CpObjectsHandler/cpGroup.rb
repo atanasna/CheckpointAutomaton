@@ -1,5 +1,5 @@
 require "ipaddress"
-require_relative "cpObject.rb"
+require_relative "CpObject.rb"
 
 class CpGroup < CpObject
     attr_accessor :name, :elements, :unknown
