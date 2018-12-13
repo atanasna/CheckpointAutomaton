@@ -11,17 +11,19 @@ class CpHost < CpObject
     end
 
     def include? input
-        if input.class.name == "IPAddress::IPv4"
+        case input.class.name
+        when "IPAddress::IPv4"
             return @ip == input
-        end
-        if input.class.name == "CpHost"
+        when "CpHost"
             return @ip == input.ip
-        end
-        if input.class.name == "CpNetwork"
+        when "CpNetwork"
             return false
-        end
-        if input.class.name == "CpRange"
+        when "CpRange"
             return false
+        when "CpGroup"
+            return false
+        else
+            return false    
         end
     end
 end

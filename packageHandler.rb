@@ -10,51 +10,67 @@ require "awesome_print"
 class PackageHandler
     attr_accessor :objects_handler, :policy_handler
 
-    def initialize
-        # Start
-            ap "Start"
-            start_time = Time.now
-            time_now = Time.now
-
+    def initialize objects_filename, policy_filename
+        @objects_handler = nil
+        @policy_handler = nil
         # Load Objects
-            print "Loading Objects . . . "
-            @objects_handler = CpObjectsHandler.new "objects_5_0_core.c"
-            puts "done: #{Time.now - time_now}s"; time_now = Time.now
-
-        # Load policy
-            print "Loading Policy . . . "
-            @policy_handler = CpPolicyHandler.from_file "standard-clone.pol"
-
-            @policy_handler.rules.each do |rule|
-                sources = Array.new
-                destinations = Array.new
-
-                rule.sources.each do |source|
-                    sources.push @objects_handler.objects.find{|obj| obj.name==source}
-                end
-                
-                rule.destinations.each do |source|
-                    destinations.push @objects_handler.objects.find{|obj| obj.name==source}
-                end
-
-                rule.sources = sources
-                rule.destinations = destinations
-            end
-            puts "done: #{Time.now - time_now}s"; time_now = Time.now
+            load_objects_handler objects_filename
+        # Load Policy
+            load_policy_handler policy_filename
     end
 
-    def find_rules networks, in_src=true, in_dst=false
-        rules = Array.new
+    def load_objects_handler objects_filename
+        start_time = Time.now
+        print "Loading Objects(~9s) . . . "
+        @objects_handler = CpObjectsHandler.new objects_filename
+        puts "loaded: #{Time.now - start_time}s"
+    end
 
-        networks.each do |network|
-            @policy_handler.rules.each do |rule|
+    def load_policy_handler policy_filename
+        start_time = Time.now
+        print "Loading Policy(~40s) . . . "
+
+        @policy_handler = CpPolicyHandler.from_file policy_filename
+
+        @policy_handler.rules.each do |rule|
+            sources = Array.new
+            destinations = Array.new
+            anyObject = CpNetwork.new "Any",IPAddress("0.0.0.0/24")
+
+            rule.sources.each do |source|
+                if source=="Any"
+                    sources.push anyObject
+                else
+                    sources.push @objects_handler.objects.find{|obj| obj.name==source}
+                end
+            end
+            
+            rule.destinations.each do |destination|
+                if destination=="Any"
+                    destinations.push anyObject
+                else
+                    destinations.push @objects_handler.objects.find{|obj| obj.name==destination}
+                end
+            end
+
+            rule.sources = sources
+            rule.destinations = destinations
+        end
+        puts "loaded: #{Time.now - start_time}s"
+    end
+
+    def find_rules lookups, in_src=true, in_dst=false
+        rules = Array.new
+        
+        @policy_handler.rules.each do |rule|
+            lookups.each do |lookup|
                 if in_src
-                    if rule.sources.find{|source| source.include? network}
+                    if rule.sources.find{|source| source.include? lookup}
                         rules.push rule
                     end
                 end
                 if in_dst
-                    if rule.destinations.find{|destination| destination.include? network}
+                    if rule.destinations.find{|destination| destination.include? lookup}
                         rules.push rule
                     end
                 end
@@ -64,19 +80,24 @@ class PackageHandler
         return rules.uniq.sort
     end
 
-    def generate_statistics
-        ap "-------------- CpObjectsHandler ----------------"
-        ap "Objects: #{@objects_handler.objects.size}"
-        ap "Hosts: #{@objects_handler.hosts.size}"
-        ap "Networks: #{@objects_handler.nets.size}"
-        ap "Ranges: #{@objects_handler.ranges.size}"
-        ap "Groups: #{@objects_handler.groups.size}"
-        ap "--------------- CpPolicyHandler ----------------"
-        ap "Entries: #{@policy_handler.entries.count}"
-        ap "Rules: #{@policy_handler.rules.count}"
-        ap "Active R: #{@policy_handler.rules.find_all{|rule| rule.disabled==false}.count}"
-        ap "Disabled R: #{@policy_handler.rules.find_all{|rule| rule.disabled==true}.count}"
-        ap "---------------------------------------"
+    def stats_policy
+        puts "--------------- Policy Statistics ----------------"
+        puts "Entries: #{@policy_handler.entries.count}"
+        puts "Titles: #{@policy_handler.titles.count}"
+        puts "Rules: #{@policy_handler.rules.count}"
+        puts "Active R: #{@policy_handler.rules.find_all{|rule| rule.disabled==false}.count}"
+        puts "Disabled R: #{@policy_handler.rules.find_all{|rule| rule.disabled==true}.count}"
+        puts "--------------------------------------------------"
+    end
+    
+    def stats_objects
+        puts "-------------- Objects Statistics ----------------"
+        puts "Objects: #{@objects_handler.objects.size}"
+        puts "Hosts: #{@objects_handler.hosts.size}"
+        puts "Networks: #{@objects_handler.networks.size}"
+        puts "Ranges: #{@objects_handler.ranges.size}"
+        puts "Groups: #{@objects_handler.groups.size}"
+        puts "--------------------------------------------------"
     end
 
     def print_fw_policy_stat fw_name
@@ -87,5 +108,7 @@ class PackageHandler
         print "#{rulebase.find_all{|rule| rule.disabled==false}.find_all{|rule| rule.installed.count>1}.count}/"
         puts "#{rulebase.count}"
     end
+
+    
 end
 

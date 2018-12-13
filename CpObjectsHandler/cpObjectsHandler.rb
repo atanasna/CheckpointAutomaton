@@ -61,9 +61,6 @@ class CpObjectsHandler
         start_new_raw = @raw.slice 0,network_objects_start_index
         end_new_raw = @raw.slice network_objects_end_index-2, @raw.count-1
 
-        ap network_objects_start_index
-        ap network_objects_end_index
-
         new_objects = Array.new
         @objects.each do |object|
             new_objects.push "\t\t: ("+object.name
@@ -78,60 +75,55 @@ class CpObjectsHandler
         groups_raw = Array.new
 
         @raw = File.read(filename).split(/\n+/)
-        net_objects = open_tag_objects @raw,"network_objects"
-        objects_raw = open_tag_objects net_objects.first, "", false
+        net_objects = open_tag @raw,"network_objects"
+        objects_raw = open_tag net_objects.first, "", false
 
         #Load simple objects (Hosts, Networks, Ranges)
         objects_raw.each do |obj_raw|
-            name = obj_raw.find{|l| l.match(/:name \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
-            
-            # Hosts
-            if obj_raw.find{|l| l.match(/:type \(host\)|:type \(gateway\)/)} 
-                ip = obj_raw.find{|l| l.match(/:ipaddr \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
-                ip = IPAddress ip
-                host = CpHost.new name,ip
-                host.raw = obj_raw
-
-                @objects.push host
-                next
-            end
-
-            # Networks
-            if obj_raw.find{|l| l.match(/:type \(network\)/)} 
-                ip = obj_raw.find{|l| l.match(/:ipaddr \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
-                mask = obj_raw.find{|l| l.match(/:netmask \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
-                net = IPAddress "#{ip}/#{mask}"
-                network = CpNetwork.new name,net
-                network.raw = obj_raw
-
-                @objects.push network
-                next
-            end
-
-            # Ranges
-            if obj_raw.find{|l| l.match(/:type \(machines_range\)/)} 
+            begin
+                name = obj_raw.find{|l| l.match(/:name \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
                 
-                first_ip = obj_raw.find{|l| l.match(/:ipaddr_first \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
-                last_ip = obj_raw.find{|l| l.match(/:ipaddr_last \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
-                first_ip = IPAddress first_ip
-                last_ip = IPAddress last_ip
-                range = CpRange.new name,first_ip,last_ip
-                range.raw = obj_raw
+                obj_raw_type = obj_raw.find{|l| l.match(/^\t{3}:type \((.*?)\)/i)}.match(/\((.*?)\)/i).captures.first
 
-                @objects.push range
-                next
+                case obj_raw_type
+                when "host", "gateway"
+
+                    ip = obj_raw.find{|l| l.match(/:ipaddr \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
+                    ip = IPAddress ip
+                    host = CpHost.new name,ip
+                    host.raw = obj_raw
+                    @objects.push host
+
+                when "network"
+                    ip = obj_raw.find{|l| l.match(/:ipaddr \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
+                    mask = obj_raw.find{|l| l.match(/:netmask \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
+                    net = IPAddress "#{ip}/#{mask}"
+                    network = CpNetwork.new name,net
+                    network.raw = obj_raw
+                    @objects.push network
+
+                when "machines_range"
+                    first_ip = obj_raw.find{|l| l.match(/:ipaddr_first \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
+                    last_ip = obj_raw.find{|l| l.match(/:ipaddr_last \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
+                    first_ip = IPAddress first_ip
+                    last_ip = IPAddress last_ip
+                    range = CpRange.new name,first_ip,last_ip
+                    range.raw = obj_raw
+                    @objects.push range
+
+                when "group"
+                    groups_raw.push obj_raw
+
+                else
+                    object = CpObject.new name
+                    object.raw = obj_raw
+                    @objects.push object
+                end
+            rescue
+                ap obj_raw
+                ap "SOMETHING WHEN WRONG"
+                exit
             end
-
-            # Groups
-            if obj_raw.find{|l| l.match(/:type \(group\)/)} 
-                groups_raw.push obj_raw
-                next
-            end
-
-            #If the objects is not a host, network, range or group, just create a generic holder
-            object = CpObject.new name
-            object.raw = obj_raw
-            @objects.push object
         end
 
         groups_raw.each do |group_raw|
@@ -171,5 +163,20 @@ class CpObjectsHandler
         end
     end
 
-    
+    def coloring subnets, color
+        objects_colored = 0
+        @objects.each do |obj|
+            if obj.class.name.match(/CpHost|CpNetwork|CpGroup|CpRange/)
+                subnets.each do |subnet|
+                    cp_network = CpNetwork.new "cp_network", subnet
+                    if cp_network.include? obj
+                        obj.color = color
+                        objects_colored += 1
+                        break
+                    end
+                end
+            end
+        end
+        return objects_colored
+    end
 end

@@ -12,7 +12,7 @@ class CpPolicyEntry
 
     def parse_tag tag_name
         elements = Array.new
-        open_tag_policy(@raw, tag_name).each do |el|
+        open_tag(@raw, tag_name).each do |el|
             if el.is_a? String
                 return el
             else

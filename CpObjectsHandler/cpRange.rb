@@ -11,17 +11,29 @@ class CpRange < CpObject
     end
 
     def include? input
-        if input.class.name == "IPAddress::IPv4"
+        case input.class.name
+        when "IPAddress::IPv4"
             return (@first.to_i <= input.to_i and @last.to_i >= input.to_i)
-        end
-        if input.class.name == "CpHost"
+        when "CpHost"
             return (@first.to_i <= input.ip.to_i and @last.to_i >= input.ip.to_i)
-        end
-        if input.class.name == "CpNetwork"
+        when "CpNetwork"
             return (@first.to_i <= input.address.to_i and @last.to_i >= input.broadcast.to_i)
-        end
-        if input.class.name == "CpRange"
+        when "CpRange"
             return (@first.to_i <= input.first.to_i and @last.to_i >= input.last.to_i)
+        when "CpGroup"
+            if input.elements.empty?
+                return false
+            end
+
+            input.elements.each do |el|
+                if not include? el
+                    return false
+                end
+            end
+            
+            return true
+        else
+            return false    
         end
     end
 end

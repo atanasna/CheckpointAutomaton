@@ -61,8 +61,8 @@ class CpPolicyHandler
     end
 
     def load
-        fw_policy = open_tag_policy @raw, "fw_policies"
-        raw_rules = open_tag_policy fw_policy.first, "rule"
+        fw_policy = open_tag @raw, "fw_policies"
+        raw_rules = open_tag fw_policy.first, "rule"
 
         index = 1
         position = 0
