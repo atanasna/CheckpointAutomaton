@@ -72,8 +72,6 @@ class CpObjectsHandler
     end
 
     def load filename
-        groups_raw = Array.new
-
         @raw = File.read(filename).split(/\n+/)
         net_objects = open_tag @raw,"network_objects"
         objects_raw = open_tag net_objects.first, "", false
@@ -81,16 +79,16 @@ class CpObjectsHandler
         #Load simple objects (Hosts, Networks, Ranges)
         objects_raw.each do |obj_raw|
             begin
-                name = obj_raw.find{|l| l.match(/:name \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
+                obj_name = obj_raw.find{|l| l.match(/:name \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
                 
-                obj_raw_type = obj_raw.find{|l| l.match(/^\t{3}:type \((.*?)\)/i)}.match(/\((.*?)\)/i).captures.first
+                obj_type = obj_raw.find{|l| l.match(/^\t{3}:type \((.*?)\)/i)}.match(/\((.*?)\)/i).captures.first
 
-                case obj_raw_type
+                case obj_type
                 when "host", "gateway"
 
                     ip = obj_raw.find{|l| l.match(/:ipaddr \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
                     ip = IPAddress ip
-                    host = CpHost.new name,ip
+                    host = CpHost.new obj_name,ip
                     host.raw = obj_raw
                     @objects.push host
 
@@ -98,7 +96,7 @@ class CpObjectsHandler
                     ip = obj_raw.find{|l| l.match(/:ipaddr \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
                     mask = obj_raw.find{|l| l.match(/:netmask \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
                     net = IPAddress "#{ip}/#{mask}"
-                    network = CpNetwork.new name,net
+                    network = CpNetwork.new obj_name,net
                     network.raw = obj_raw
                     @objects.push network
 
@@ -107,18 +105,22 @@ class CpObjectsHandler
                     last_ip = obj_raw.find{|l| l.match(/:ipaddr_last \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
                     first_ip = IPAddress first_ip
                     last_ip = IPAddress last_ip
-                    range = CpRange.new name,first_ip,last_ip
+                    range = CpRange.new obj_name,first_ip,last_ip
                     range.raw = obj_raw
                     @objects.push range
 
                 when "group"
-                    groups_raw.push obj_raw
-
+                    #groups_raw.push obj_raw
+                    group = CpGroup.new obj_name
+                    group.raw = obj_raw
+                    @objects.push group
                 else
-                    object = CpObject.new name
+                    object = CpObject.new obj_name
                     object.raw = obj_raw
                     @objects.push object
                 end
+
+
             rescue
                 ap obj_raw
                 ap "SOMETHING WHEN WRONG"
@@ -126,12 +128,9 @@ class CpObjectsHandler
             end
         end
 
-        groups_raw.each do |group_raw|
-            name = group_raw.find{|l| l.match(/:name \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
-            group = CpGroup.new name
-            group.raw = group_raw
+        groups.each do |group|
             #pp "========== #{group.name} ==========="
-            elements_names = group_raw.find_all{|l| l.match(/:Name \(.*?\)/)}
+            elements_names = group.raw.find_all{|l| l.match(/:Name \(.*?\)/)}
             elements_names.each do |el_name|
                     el_name = el_name.match(/\((.*?)\)/i).captures.first
                     #pp el_name
@@ -151,8 +150,6 @@ class CpObjectsHandler
                     end
 
             end
-            #@groups.push group
-            @objects.push group  
         end
 
         groups.each do |group|
@@ -163,7 +160,7 @@ class CpObjectsHandler
         end
     end
 
-    def coloring subnets, color
+    def colorize subnets, color
         objects_colored = 0
         @objects.each do |obj|
             if obj.class.name.match(/CpHost|CpNetwork|CpGroup|CpRange/)
@@ -178,5 +175,18 @@ class CpObjectsHandler
             end
         end
         return objects_colored
+    end
+
+    def find_duplicates 
+        dup_objects = Array.new
+
+        @objects.each do |prim_obj|
+            duplicates = @objects.find_all{|obj| prim_obj.equal? obj}
+            if duplicates.size > 1
+                dup_objects.push duplicates.sort
+            end
+        end
+
+        return dup_objects.uniq
     end
 end

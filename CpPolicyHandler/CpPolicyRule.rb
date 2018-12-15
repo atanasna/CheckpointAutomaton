@@ -18,7 +18,6 @@ class CpPolicyRule < CpPolicyEntry
         @installed = parse_tag "install"
         @comment = parse_tag "comments"
 
-        
     end
 
     def comment=val

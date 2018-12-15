@@ -1,0 +1,1091 @@
+Loading Objects(~9s) . . . done: 6.023602s
+Loading Policy(~40s) . . . done: 33.963396s
+------>> Removing Duplicates 
+Looking for duplicates(~30s) . . . done: 29.653965s
+"Transofm to name"
+[
+    [  0] [
+        [0] "NED_WSCDQA01",
+        [1] "Ned_nedwscdqa01"
+    ],
+    [  1] [
+        [0] "INFR_OMBSDC01.ombs.omplc.net",
+        [1] "OMBSDC01"
+    ],
+    [  2] [
+        [0] "INFR_OMBSDC02.ombs.omplc.net",
+        [1] "OMBSDC02"
+    ],
+    [  3] [
+        [0] "INFR_OMBSDC04.ombs.omplc.net",
+        [1] "ombsdc04"
+    ],
+    [  4] [
+        [0] "INFR_OMBSDC06.ombs.omplc.net",
+        [1] "ombsdc06.ombs.omplc.net"
+    ],
+    [  5] [
+        [0] "NED-NET-208_10.208.0.0",
+        [1] "NED_Net_Users",
+        [2] "NED_Network",
+        [3] "net_10.208.0.0"
+    ],
+    [  6] [
+        [0] "Host_10.107.3.46",
+        [1] "OMSA-Exchange-Server"
+    ],
+    [  7] [
+        [0] "Host_10.109.2.61-OMSA_AW_WEB_DEV",
+        [1] "Rainbow-AWD-WebServer-Dev"
+    ],
+    [  8] [
+        [0] "Host_10.109.2.63-OMSA_AWD_APP_DEV",
+        [1] "Rainbow-AWD-AppServer-Dev"
+    ],
+    [  9] [
+        [0] "DR_Server_VLANs_10.251.0.0",
+        [1] "Net_10.251.0.0",
+        [2] "Net_10.251.0.0-0",
+        [3] "Net_10.251.0.0-1"
+    ],
+    [ 10] [
+        [0] "GHO_MBH_VLAN",
+        [1] "Net_10.253.0.0",
+        [2] "Net_10.253.0.0_16"
+    ],
+    [ 11] [
+        [0] "NET_OMP_SERVERS_10.255.0.0",
+        [1] "Net_10.255.0.0",
+        [2] "Net_10.255.0.0-0",
+        [3] "Net_10.255.0.0-1",
+        [4] "Net_10.255.0.0_Trust",
+        [5] "OMP_Networks"
+    ],
+    [ 12] [
+        [0] "Host_10.43.0.0_Nordic_Users",
+        [1] "Net_10.43.0.0",
+        [2] "Skandia_UK_STON",
+        [3] "Skandia_UK_STON_10.43.0.0"
+    ],
+    [ 13] [
+        [0] "Net_10.47.0.0",
+        [1] "SKANDIA-UK",
+        [2] "Skandia_UK_STON_10.47.0.0"
+    ],
+    [ 14] [
+        [0] "GET_Subnet_NAT2",
+        [1] "Net_196.36.95.233_OMSA",
+        [2] "Skandia-WS-NAT"
+    ],
+    [ 15] [
+        [0] "AndyWolstenholme-PC",
+        [1] "PC_AW_10.253.2.20"
+    ],
+    [ 16] [
+        [0] "APCICRPRWB01.apps.omplc.net",
+        [1] "APPS_APCICRPRWB01",
+        [2] "CICRPR.apps.omplc.net"
+    ],
+    [ 17] [
+        [0] "APCICRUATWB01.apps.omplc.net",
+        [1] "APPS_APCICRUATWB01",
+        [2] "CICRUAT.apps.omplc.net"
+    ],
+    [ 18] [
+        [0] "APFCTPRWFE01.apps.omplc.net",
+        [1] "apfctprwfe01"
+    ],
+    [ 19] [
+        [0] "APHDEVWB01",
+        [1] "APP_aphdevwb01"
+    ],
+    [ 20] [
+        [0] "APLDSDEV01",
+        [1] "OMBSDC07"
+    ],
+    [ 21] [
+        [0] "APOPGPRCMD01",
+        [1] "APPS-APOPGPRCMD01",
+        [2] "APPS_apopgprcmd01.apps.omplc"
+    ],
+    [ 22] [
+        [0] "APOPGPRCMD02",
+        [1] "APPS-APOPGPRCMD02",
+        [2] "APPS_apopgprcmd02.apps.omplc"
+    ],
+    [ 23] [
+        [0] "APOPGPRWB01",
+        [1] "APPS-APOPGPRWB01",
+        [2] "APPS_apopgprwb01.apps.omplc"
+    ],
+    [ 24] [
+        [0] "APOPGPRWB02",
+        [1] "APPS-APOPGPRWB02",
+        [2] "APPS_apopgprwb02.apps.omplc"
+    ],
+    [ 25] [
+        [0] "APOPGTRCMD01",
+        [1] "APPS_APOPGTRCMD01",
+        [2] "APPS_OPRMSTRNRP",
+        [3] "APPS_apopgtrwb01.apps.omplc"
+    ],
+    [ 26] [
+        [0] "APOPGTRWB01",
+        [1] "APPS_APOPGTRWB01",
+        [2] "APPS_OPRMSTRN",
+        [3] "APPS_apopgtrcmd01.apps.omplc"
+    ],
+    [ 27] [
+        [0] "APOPGUATCMD01",
+        [1] "APPS_OPRMSUATRP"
+    ],
+    [ 28] [
+        [0] "APOPGUATCMD01_NEW",
+        [1] "APPS_APOPGUATCMD01",
+        [2] "APPS_OPRMSUATRP_NEW",
+        [3] "APPS_apopguatcmd01.apps.omplc."
+    ],
+    [ 29] [
+        [0] "APOPGUATWB01",
+        [1] "APPS_oprmsuat.ombs.omplc.net"
+    ],
+    [ 30] [
+        [0] "APOPGUATWB01_NEW",
+        [1] "APPS_APOPGUATWB01",
+        [2] "APPS_OPRMSUAT",
+        [3] "APPS_apopguatwb01.apps.omplc.."
+    ],
+    [ 31] [
+        [0] "APPSSPPRWB01_NEW",
+        [1] "APPS_APPSSPPRWB03"
+    ],
+    [ 32] [
+        [0] "APPSSPTRN01",
+        [1] "APPS_Appssptrn01",
+        [2] "FCT-Web-Training"
+    ],
+    [ 33] [
+        [0] "APPS_appstwcalc01",
+        [1] "OMBS_APPSTWCALS01"
+    ],
+    [ 34] [
+        [0] "APPS_APTMDEVDB01",
+        [1] "APTMUATDB01.apps.omplc.net"
+    ],
+    [ 35] [
+        [0] "APPS_APTMDEVWB01",
+        [1] "APTMUATWB01.apps.omplc.net"
+    ],
+    [ 36] [
+        [0] "APPS_Hyperion-ProductionV11",
+        [1] "OM_HYP11_VS"
+    ],
+    [ 37] [
+        [0] "APPS_OMBSQKL01",
+        [1] "APPS_OMBSQKV01-10.255.33.72",
+        [2] "APPS_OMBSQKV01.APPS.OMPLC.NET"
+    ],
+    [ 38] [
+        [0] "APPS_OMBSSPDEV04",
+        [1] "OMBSSPDEV04"
+    ],
+    [ 39] [
+        [0] "APPS_OPRMS",
+        [1] "OM_OPG_VS",
+        [2] "OPRMS.APPS.OMPLC.NET_VS"
+    ],
+    [ 40] [
+        [0] "APPS_OPRMSRP",
+        [1] "APPS_OPRMSRP.101",
+        [2] "OM_OPG_CV_VS",
+        [3] "OPRMSRP.APPS.OMPLC.NET_VS"
+    ],
+    [ 41] [
+        [0] "APPS_RAECPR.APPS.OMPLC.NET",
+        [1] "RAProdTS_10.255.80.50"
+    ],
+    [ 42] [
+        [0] "APPSDC03",
+        [1] "APPSDC03_decom"
+    ],
+    [ 43] [
+        [0] "APPSDC04",
+        [1] "APPSDC04-decom"
+    ],
+    [ 44] [
+        [0] "APPSISA_NLB",
+        [1] "FCT-Web",
+        [2] "FCT.OMBS.OMPLC.NET",
+        [3] "OMSites_Sharepoint",
+        [4] "OM_SHPOINT_VIP"
+    ],
+    [ 45] [
+        [0] "APPSSPPRWB02_NEW",
+        [1] "APPSSPPRWB02_NEWb",
+        [2] "APPS_APPSSPPRWB02"
+    ],
+    [ 46] [
+        [0] "DR_VPN_Users_10.254.1.0",
+        [1] "Net_VPNDR_10.254.1.0"
+    ],
+    [ 47] [
+        [0] "GHO_Hyperion_VS",
+        [1] "HYPERION_PROD_VS"
+    ],
+    [ 48] [
+        [0] "GrahamLyons-PC",
+        [1] "PC_GL_10.253.74.109"
+    ],
+    [ 49] [
+        [0] "GS1ACE01",
+        [1] "GS1ACE01_10.251.212.240"
+    ],
+    [ 50] [
+        [0] "IOMSLAPP06",
+        [1] "host_10.47.41.17"
+    ],
+    [ 51] [
+        [0] "GSACE01",
+        [1] "VPN-Concentrator-GS"
+    ],
+    [ 52] [
+        [0] "HYPERION-Web",
+        [1] "HYPERION_PROD_NLB",
+        [2] "OMBSHPRODWB01"
+    ],
+    [ 53] [
+        [0] "HYPERION-Web-UAT",
+        [1] "OMBSHUATWB01"
+    ],
+    [ 54] [
+        [0] "IMSHWPWDC01",
+        [1] "SKUK_IOMSLDC03",
+        [2] "skandia.co.uk_dc_8"
+    ],
+    [ 55] [
+        [0] "INFR_LONAPPFLA01",
+        [1] "host_10.255.212.228"
+    ],
+    [ 56] [
+        [0] "INFR_OMBSAPP01",
+        [1] "OMBSAPP01_10.255.213.211"
+    ],
+    [ 57] [
+        [0] "INFR_OMBSEXC02_10.251.212.174",
+        [1] "OMBSEXC02",
+        [2] "OMBS_OMBSEXC02"
+    ],
+    [ 58] [
+        [0] "INFR_OMBSSAV01",
+        [1] "OMBSSAV01"
+    ],
+    [ 59] [
+        [0] "INFR_OMBSSS01",
+        [1] "OMBSSS01"
+    ],
+    [ 60] [
+        [0] "INFR_OMBSWLC01",
+        [1] "OMBSWLC01"
+    ],
+    [ 61] [
+        [0] "INFR_OMBSWLC02",
+        [1] "OMBSWLC02"
+    ],
+    [ 62] [
+        [0] "INFR_SLDC05.selestia.omplc.net",
+        [1] "SIS_SLDC05"
+    ],
+    [ 63] [
+        [0] "JonHewitt-PC",
+        [1] "PC_JH_10.253.74.111"
+    ],
+    [ 64] [
+        [0] "KELWAY003",
+        [1] "OMBSHPRODSER03"
+    ],
+    [ 65] [
+        [0] "KELWAY004",
+        [1] "OMBSHPRODDB02"
+    ],
+    [ 66] [
+        [0] "OM_SIGServer_2",
+        [1] "mediacard",
+        [2] "mediacard_backup1"
+    ],
+    [ 67] [
+        [0] "OM_SIGServer_1",
+        [1] "Signalling_Server",
+        [2] "mediacard_backup"
+    ],
+    [ 68] [
+        [0] "NED-ZETAFAX01_10.254.120.55",
+        [1] "NED_NEDZETAFAX01"
+    ],
+    [ 69] [
+        [0] "NED_DOCJHBSNT03_DCx",
+        [1] "NED_EGCDOCJHBSNT03"
+    ],
+    [ 70] [
+        [0] "NED_SA_Nedbank-JHB_range1",
+        [1] "Net_10.52.36.0"
+    ],
+    [ 71] [
+        [0] "NET_10.255.32.0",
+        [1] "Net-10.255.32.0"
+    ],
+    [ 72] [
+        [0] "Net-10.47.160.0",
+        [1] "Skandia_UK_STON_Supernet"
+    ],
+    [ 73] [
+        [0] "NET-DR-10.251.112.0",
+        [1] "SUNGARD"
+    ],
+    [ 74] [
+        [0] "Net_10.12.4.0",
+        [1] "Net_OMBMNY-10.12.4.0",
+        [2] "Net_OMBNY_WorkstationsDR"
+    ],
+    [ 75] [
+        [0] "Net_10.255.20.0",
+        [1] "Net_OP-PROD_10.255.20.0"
+    ],
+    [ 76] [
+        [0] "Net_10.255.211.0",
+        [1] "OMBSPRCUWEB01",
+        [2] "OMBSSHPWEB01",
+        [3] "ombsdevcuweb01"
+    ],
+    [ 77] [
+        [0] "Net_10.255.216.0",
+        [1] "Net_10.255.216.0-0"
+    ],
+    [ 78] [
+        [0] "Net_10.255.220.0",
+        [1] "Net_SIS_Data"
+    ],
+    [ 79] [
+        [0] "GHO_Capetown",
+        [1] "Net_192.168.103.0"
+    ],
+    [ 80] [
+        [0] "GHO_Joburg",
+        [1] "Net_192.168.109.0"
+    ],
+    [ 81] [
+        [0] "Net_192.168.12.0",
+        [1] "Net_OMBMNY-192.168.12.0"
+    ],
+    [ 82] [
+        [0] "Net_192.168.210.0",
+        [1] "Net_OM_Bermuda"
+    ],
+    [ 83] [
+        [0] "Net_192.168.4.0",
+        [1] "Net_OMBMNY-192.168.4.0",
+        [2] "Net_OMBNY_WorkstationsPR"
+    ],
+    [ 84] [
+        [0] "Net_GS_10.251.212.0",
+        [1] "OMBSDRCUWEB01"
+    ],
+    [ 85] [
+        [0] "Net_Simplex_Production_A",
+        [1] "net_10.30.10.0"
+    ],
+    [ 86] [
+        [0] "NET_SMIN11_LAN",
+        [1] "Net_SIS_SMIN11"
+    ],
+    [ 87] [
+        [0] "Net_VPN_SA_GS",
+        [1] "OMP_VPN_Users_10.252.171.0",
+        [2] "VPN-Users-GS"
+    ],
+    [ 88] [
+        [0] "Net_VPN_SA_OM",
+        [1] "OMP_VPN_Users_10.252.170.0",
+        [2] "VPN-Users-OM"
+    ],
+    [ 89] [
+        [0] "Net_VPNOMP_10.254.0.0",
+        [1] "OMP_VPN_Users_10.254.0.0",
+        [2] "net_10.254.0.0"
+    ],
+    [ 90] [
+        [0] "OMAM-UK-Exchange-Server",
+        [1] "OMAM_SimpleSyncSvr"
+    ],
+    [ 91] [
+        [0] "INFR_OMBSEXC01_10.255.211.174",
+        [1] "OMBSEXC01",
+        [2] "OMBS_OMBSEXC01"
+    ],
+    [ 92] [
+        [0] "OMBSGP01",
+        [1] "OMBS_OMBSGP01"
+    ],
+    [ 93] [
+        [0] "OMBSMBX01",
+        [1] "OMBS_OMBSMBX01"
+    ],
+    [ 94] [
+        [0] "OMBSMBX03",
+        [1] "OMBS_OMBSMBX03"
+    ],
+    [ 95] [
+        [0] "OMBS_OMBSMBX04",
+        [1] "ombsmbx04.ombs.omplc.net"
+    ],
+    [ 96] [
+        [0] "OMBSMBX05",
+        [1] "OMBS_OMBSMBX05"
+    ],
+    [ 97] [
+        [0] "OMBSMON02",
+        [1] "OMBSMON05"
+    ],
+    [ 98] [
+        [0] "OMBSQKV01",
+        [1] "ombsqkv01.ombs.omplc.net"
+    ],
+    [ 99] [
+        [0] "OMBSSIM01",
+        [1] "OMBSSIM01-10.255.160.50",
+        [2] "ombssim01.ombs.omplc.net"
+    ],
+    [100] [
+        [0] "OMBSTMG02-GHOint",
+        [1] "OMBSTMG02-int"
+    ],
+    [101] [
+        [0] "OMBSTMG03-GHOint",
+        [1] "OMBSTMG03-int"
+    ],
+    [102] [
+        [0] "Net_10.253.72.0",
+        [1] "OMP_GROUND_FLOOR_VLAN_72",
+        [2] "OMP_Ground_Floor_TSG_Users"
+    ],
+    [103] [
+        [0] "OMSA-JBURG-WLC",
+        [1] "WLC_172.28.239.11"
+    ],
+    [104] [
+        [0] "OMSA-WKS-102.14",
+        [1] "OMSA-Workstations-102",
+        [2] "OMSA_Workstations-102"
+    ],
+    [105] [
+        [0] "OMSA-Wks-108.14",
+        [1] "OMSA-Workstations-108",
+        [2] "OMSA_Workstations-108",
+        [3] "Rainbow-AWD-App-Dev",
+        [4] "Rainbow-AWD-Web-Dev"
+    ],
+    [106] [
+        [0] "OMSA-Wks-109.2",
+        [1] "OMSA_Workstations-109"
+    ],
+    [107] [
+        [0] "OMSA-WLC01_192.168.154.11",
+        [1] "OMSA_WLC01",
+        [2] "WLC_192.168.154.11"
+    ],
+    [108] [
+        [0] "OMSA-WLC02_192.168.154.12",
+        [1] "WLC_192.168.154.12"
+    ],
+    [109] [
+        [0] "OMSA_Rainbow_Server01_1",
+        [1] "Rainbow-AWD-Web-Server-SA-2"
+    ],
+    [110] [
+        [0] "OMSA_Rainbow_Server01",
+        [1] "OMSA_Rainbow_Server02"
+    ],
+    [111] [
+        [0] "PC_RameshGurunathan",
+        [1] "PC_RameshGutunathan"
+    ],
+    [112] [
+        [0] "SIS_DMZ_Subnet_130",
+        [1] "Selestia-DMZ-10.254.130.0"
+    ],
+    [113] [
+        [0] "SESTDC05",
+        [1] "SESTDNS01"
+    ],
+    [114] [
+        [0] "SESTDC06",
+        [1] "SESTDNS02"
+    ],
+    [115] [
+        [0] "Host_192.168.100.22_Germany",
+        [1] "SI_Futures_192.168.100.22"
+    ],
+    [116] [
+        [0] "MPLS-Steenbok-Internal",
+        [1] "SI_Futures_Firewall_GS"
+    ],
+    [117] [
+        [0] "MPLS-SA-Hosting",
+        [1] "Net_192.168.107.0",
+        [2] "SI_Futures_SA"
+    ],
+    [118] [
+        [0] "MPLS_UK_Hosting",
+        [1] "SI_Futures_UK",
+        [2] "host_192.168.100.0"
+    ],
+    [119] [
+        [0] "SIS_SMLRAP01",
+        [1] "SIS_SMLRAP01_10.255.223.8"
+    ],
+    [120] [
+        [0] "SIS_SMPRTSCT",
+        [1] "SMPRTSCT"
+    ],
+    [121] [
+        [0] "SESTER7",
+        [1] "Skandia-Nordic-DC-7"
+    ],
+    [122] [
+        [0] "SKUK_IOMSRDC01",
+        [1] "SKUK_IOMSRDC07",
+        [2] "skandia.co.uk_dc_1"
+    ],
+    [123] [
+        [0] "SKANDIA_STON_UKSODC01",
+        [1] "skandia.co.uk_dc_10"
+    ],
+    [124] [
+        [0] "SKUK_IOMSLDC01",
+        [1] "skandia.co.uk_dc_11"
+    ],
+    [125] [
+        [0] "SKUK_UKHEDC02",
+        [1] "skandia.co.uk_dc_2"
+    ],
+    [126] [
+        [0] "SKUK_UKSPWPWDC01",
+        [1] "skandia.co.uk_dc_3"
+    ],
+    [127] [
+        [0] "SKANDIA_LON_UKLODC02",
+        [1] "skandia.co.uk_dc_4"
+    ],
+    [128] [
+        [0] "SKUK_UKHCLDC01",
+        [1] "skandia.co.uk_dc_5"
+    ],
+    [129] [
+        [0] "SKUK_IOMSRDC08",
+        [1] "skandia.co.uk_dc_6"
+    ],
+    [130] [
+        [0] "UKSGWPWDC02",
+        [1] "skandia.co.uk_dc_7"
+    ],
+    [131] [
+        [0] "SKUK_IOMSLDC02",
+        [1] "skandia.co.uk_dc_9"
+    ],
+    [132] [
+        [0] "UKLOWPRDC01",
+        [1] "skandia_dc_Other"
+    ],
+    [133] [
+        [0] "SKANDIA_STON_UKSODC03",
+        [1] "UKSODC03"
+    ],
+    [134] [
+        [0] "SKANDIA_UKSHWPWDC02",
+        [1] "UKSHWPWDC02",
+        [2] "UKSODC04"
+    ],
+    [135] [
+        [0] "SKND-WLC01",
+        [1] "WLC_10.85.20.6"
+    ],
+    [136] [
+        [0] "SKND-WLC02",
+        [1] "WLC_10.85.20.7"
+    ],
+    [137] [
+        [0] "SKUK_UKSHWPNPS02",
+        [1] "SKUK_WLCRAD02_10.47.242.8"
+    ],
+    [138] [
+        [0] "SKUK_WLC01_10.47.30.4",
+        [1] "WLC_10.47.30.4"
+    ],
+    [139] [
+        [0] "SKUK_WLC02_10.47.30.5",
+        [1] "WLC_10.47.30.5"
+    ],
+    [140] [
+        [0] "TSG_Admins_VPN",
+        [1] "VPN-TSGAdmin-Range"
+    ],
+    [141] [
+        [0] "UKCOWPRDC01",
+        [1] "ukcowprdc01_DC"
+    ],
+    [142] [
+        [0] "INFR_LONVPN01",
+        [1] "VPN-Concentrator-OM"
+    ],
+    [143] [
+        [0] "VPN-GHO-Range",
+        [1] "VPN-GHO-Users-10.253.249.0"
+    ],
+    [144] [
+        [0] "Net_172.17.1.0",
+        [1] "UISL_Bmouth_Network"
+    ],
+    [145] [
+        [0] "Net_172.17.8.0",
+        [1] "Net_172.17.8.0-0",
+        [2] "Net_172.17.8.0-1"
+    ],
+    [146] [
+        [0] "UISL-Liverpool_172.20.49.100",
+        [1] "UISL_CAPSCO"
+    ],
+    [147] [
+        [0] "UISL-O-BMTH-UAT-01",
+        [1] "UISL_172.17.1.62"
+    ],
+    [148] [
+        [0] "UISL_Bmouth_OMIWEB02",
+        [1] "UISL_Bmouth_WEB_Svr"
+    ],
+    [149] [
+        [0] "UISL_HOOKTRDOCPRD",
+        [1] "UISL_HOOKTRDOCPRD_1"
+    ],
+    [150] [
+        [0] "UISL_ZZUATECONODE1",
+        [1] "UISL_ZZUAT_ECO_NODE1"
+    ],
+    [151] [
+        [0] "Host_10.42.0.0_Nordic_Users",
+        [1] "Skandia-ELAM-Columbia"
+    ],
+    [152] [
+        [0] "SESTTMS49",
+        [1] "SESTTMS69"
+    ],
+    [153] [
+        [0] "Skandia_Nordic_LAN_OMP",
+        [1] "Skandia_Nordic_OM"
+    ],
+    [154] [
+        [0] "GHOAPPFWPF_10.0.0.15",
+        [1] "host_10.0.0.15"
+    ],
+    [155] [
+        [0] "OMDS-SW",
+        [1] "host_10.0.0.8"
+    ],
+    [156] [
+        [0] "Fairbairn_Router",
+        [1] "Fairburn_Router"
+    ],
+    [157] [
+        [0] "PLANVIEW",
+        [1] "host_10.107.3.123"
+    ],
+    [158] [
+        [0] "e1.skandia.com",
+        [1] "host_10.80.55.100_E1_Nordic"
+    ],
+    [159] [
+        [0] "Net_10.82.0.0",
+        [1] "host_10.82.0.0_Nordic_LAN_Users"
+    ],
+    [160] [
+        [0] "Boston_FW_SI_Futures",
+        [1] "Net-USAM-WS-NAT-196.36.95.26",
+        [2] "Net_USAM_Workstations"
+    ],
+    [161] [
+        [0] "CAPSCO_CTN2",
+        [1] "OMSA_FTP_NAT_196.36.95.230"
+    ],
+    [162] [
+        [0] "CSAWCA002",
+        [1] "CSAWCA002.za.omlac.net"
+    ],
+    [163] [
+        [0] "CSAWCA003",
+        [1] "CSAWCA003.za.omlac.net"
+    ],
+    [164] [
+        [0] "DC-10.13.0.61",
+        [1] "host_10.13.0.61"
+    ],
+    [165] [
+        [0] "ESMADC03",
+        [1] "SKANDIA_Spain_ESMADC03"
+    ],
+    [166] [
+        [0] "GET_Subnet_10_110_2_0",
+        [1] "Skandia-SA-110.2"
+    ],
+    [167] [
+        [0] "GET_Subnet_10_110_7_0",
+        [1] "Skandia-SA-110.7"
+    ],
+    [168] [
+        [0] "IR-Extranet-Site",
+        [1] "OMSA_Extranet",
+        [2] "OMSA_Intranet"
+    ],
+    [169] [
+        [0] "Nedbank-NAT2",
+        [1] "Net_Nedbank_Workstations"
+    ],
+    [170] [
+        [0] "INFR_TSGWIN2008DC01",
+        [1] "host_192.168.112.2"
+    ],
+    [171] [
+        [0] "INFR_TSGWIN2008DC02",
+        [1] "host_192.168.112.3"
+    ],
+    [172] [
+        [0] "Host_10.85.180.58",
+        [1] "ltsit.skandianordic.org"
+    ],
+    [173] [
+        [0] "Host_192.168.107.11",
+        [1] "Soton_FTP_Server"
+    ],
+    [174] [
+        [0] "Intranet_160.123.229.107",
+        [1] "OMSA_GroupNet.Intranet"
+    ],
+    [175] [
+        [0] "M_F-WS-NAT-196.36.95.10",
+        [1] "Net_M_F_WorkstationsDR"
+    ],
+    [176] [
+        [0] "M_F-WS-NAT-196.36.95.12",
+        [1] "Net_M_F_Workstations_NAT"
+    ],
+    [177] [
+        [0] "Metastorm.Licence",
+        [1] "Metastorm.intranet"
+    ],
+    [178] [
+        [0] "MPLS-Nyala-Internal",
+        [1] "SI_Futures_Firewall_OM"
+    ],
+    [179] [
+        [0] "Mutual-Park-NAT",
+        [1] "Net_OMSA_Workstations"
+    ],
+    [180] [
+        [0] "NED_Net_SA_10.52.0.0",
+        [1] "Net_10.52.0.0"
+    ],
+    [181] [
+        [0] "Nedbank-NAT4",
+        [1] "Net_Nedbank_WorkstationsDR"
+    ],
+    [182] [
+        [0] "Nedbank_SA_Server",
+        [1] "Nedbank_SA_Server_1",
+        [2] "Nedcor-NAT-196.36.95.65"
+    ],
+    [183] [
+        [0] "Net_M_F-10.21.0.0",
+        [1] "Net_MandF_10.21.0.0_16"
+    ],
+    [184] [
+        [0] "Net_NAMIBIA_Workstations",
+        [1] "OMNAM-Namibia"
+    ],
+    [185] [
+        [0] "Net_OMIGSA_Workstations1",
+        [1] "OMIGSA_Proxy01"
+    ],
+    [186] [
+        [0] "Net_OMIGSA_Workstations2",
+        [1] "OMIGSA_Proxy02"
+    ],
+    [187] [
+        [0] "Net_SkandiaEurope_Workstations",
+        [1] "SK-Stockholm-NAT-1"
+    ],
+    [188] [
+        [0] "Net_SkandiaEurope_WorkstationsDR",
+        [1] "SK-Stockholm-NAT-2"
+    ],
+    [189] [
+        [0] "OMAMUSDC01",
+        [1] "USAM_SOMHBOUSDC01"
+    ],
+    [190] [
+        [0] "OMAMUSDC02",
+        [1] "USAM_SOMHBOUSDC02"
+    ],
+    [191] [
+        [0] "OMBSVH16",
+        [1] "SI_SISA8"
+    ],
+    [192] [
+        [0] "OMMF-10.1.0.0",
+        [1] "OMMF_10.1.0.0"
+    ],
+    [193] [
+        [0] "OMSA_Domain_Controller08",
+        [1] "OMSA_tsfwcv002.omlac.net",
+        [2] "TSFWCV002_DC.za.omlac.net"
+    ],
+    [194] [
+        [0] "OMSA_Domain_Controller09",
+        [1] "OMSA_tsawcp002_DNS04",
+        [2] "TSAWCP002.za.omlac.net"
+    ],
+    [195] [
+        [0] "OMSA_TSAWCP801",
+        [1] "OMSA_tsawcp801_DNS03"
+    ],
+    [196] [
+        [0] "OMSA_TSAWCV001",
+        [1] "TSAWCV001.za.omlac.net"
+    ],
+    [197] [
+        [0] "OMSA_TSAWCV002",
+        [1] "TSAWCV002.za.omlac.net"
+    ],
+    [198] [
+        [0] "OMSA_tsfwcp001.omlac.net",
+        [1] "TSFWCP001.za.omlac.net",
+        [2] "TSFWCP001_DC.za.omlac.net"
+    ],
+    [199] [
+        [0] "OMSA_TSFWCP801",
+        [1] "TSFWCP801.za.omlac.net"
+    ],
+    [200] [
+        [0] "NET_192.168.155.0",
+        [1] "OMSA_Wireless_Users"
+    ],
+    [201] [
+        [0] "SESTDC07.skandianordic.org",
+        [1] "SESTDC07_2"
+    ],
+    [202] [
+        [0] "SOMCDEUSDC01",
+        [1] "USAM_somcdeusdc01"
+    ],
+    [203] [
+        [0] "SOMCDEUSDC02",
+        [1] "USAM_somcdeusdc02"
+    ],
+    [204] [
+        [0] "SOMHAUOMDC01",
+        [1] "USAM_somhauomdc01"
+    ],
+    [205] [
+        [0] "SOMHAUUSDC01",
+        [1] "USAM_somhauusdc01"
+    ],
+    [206] [
+        [0] "SOMHAUUSDC02",
+        [1] "USAM_somhauusdc02"
+    ],
+    [207] [
+        [0] "SOMHBOUSDC00",
+        [1] "USAM_somhbousdc00"
+    ],
+    [208] [
+        [0] "Host_10.80.0.0",
+        [1] "Sweden_LAN1"
+    ],
+    [209] [
+        [0] "Net_10.85.0.0",
+        [1] "Net_10.85.0.0_16",
+        [2] "Sweden_LAN5"
+    ],
+    [210] [
+        [0] "Markitwire-Server-1",
+        [1] "host_80.169.74.65"
+    ],
+    [211] [
+        [0] "Markitwire-Server-2",
+        [1] "host_80.169.74.66"
+    ],
+    [212] [
+        [0] "Net-10.41.16.0",
+        [1] "Net_10.41.16.0"
+    ],
+    [213] [
+        [0] "Net-10.70.106.0",
+        [1] "Net_Luxembourg_10.70.106.0"
+    ],
+    [214] [
+        [0] "Net_160.123.0.0",
+        [1] "Net_160.123.0.0_16"
+    ],
+    [215] [
+        [0] "Net_SKUK_DR_10.40.0.0",
+        [1] "SKUK_Net_DR_10.40.0.0"
+    ],
+    [216] [
+        [0] "IVASS",
+        [1] "host_2.115.206.179"
+    ],
+    [217] [
+        [0] "ftpbanca.fineco.it1",
+        [1] "host_194.185.96.11"
+    ],
+    [218] [
+        [0] "SOHOSquare",
+        [1] "host_212.239.25.3"
+    ],
+    [219] [
+        [0] "Assicra1",
+        [1] "host_89.96.214.134"
+    ],
+    [220] [
+        [0] "ftpbanca.fineco.it",
+        [1] "host_193.193.183.201"
+    ],
+    [221] [
+        [0] "Assicra2",
+        [1] "host_193.148.38.211"
+    ],
+    [222] [
+        [0] "FTPs.grouppo.MPs.it",
+        [1] "host_195.7.19.100"
+    ],
+    [223] [
+        [0] "ftp.phoenixspa.it",
+        [1] "host_217.71.64.25"
+    ],
+    [224] [
+        [0] "ftp.gruppo.mps.it",
+        [1] "host_195.7.19.16"
+    ],
+    [225] [
+        [0] "Net_10.66.50.152",
+        [1] "Net_10.66.50.152-0",
+        [2] "Net_10.66.50.152-1"
+    ],
+    [226] [
+        [0] "Net_10.66.50.144",
+        [1] "Net_10.66.50.144-0",
+        [2] "Net_10.66.50.144-1"
+    ],
+    [227] [
+        [0] "Net_10.66.48.55",
+        [1] "Net_10.66.48.55-0"
+    ],
+    [228] [
+        [0] "Net_192.168.250.0",
+        [1] "Net_192.168.250.0-0",
+        [2] "Net_192.168.250.0-1",
+        [3] "Net_192.168.250.0-2"
+    ],
+    [229] [
+        [0] "Net_10.66.48.56",
+        [1] "Net_10.66.48.56-0"
+    ],
+    [230] [
+        [0] "Net_10.66.0.0",
+        [1] "Net_10.66.0.0-0"
+    ],
+    [231] [
+        [0] "SIS_SMLRAP03",
+        [1] "SIS_SMLRAP04-1"
+    ],
+    [232] [
+        [0] "Net_10.254.130.175",
+        [1] "Net_10.254.130.175-0"
+    ],
+    [233] [
+        [0] "Net_172.17.1.0-0",
+        [1] "Net_172.17.1.0-1"
+    ],
+    [234] [
+        [0] "Net_172.17.1.192",
+        [1] "Net_172.17.1.192-0"
+    ],
+    [235] [
+        [0] "Host_10.67.14.11",
+        [1] "UKWKWPSDT01_EXT"
+    ],
+    [236] [
+        [0] "HOST_217.154.66.116",
+        [1] "iPadtest"
+    ],
+    [237] [
+        [0] "HOST_217.35.102.142",
+        [1] "TSG-ADSL-IP"
+    ],
+    [238] [
+        [0] "HOST_10.254.183.44",
+        [1] "pf.skandiais.co.uk_https_vs_1"
+    ],
+    [239] [
+        [0] "HOST_10.254.181.163",
+        [1] "IN7_Usab_Https_Vs_1"
+    ],
+    [240] [
+        [0] "HOST_10.254.183.34",
+        [1] "pf.oldmutualwealth.co.uk"
+    ],
+    [241] [
+        [0] "HOST_10.254.181.173",
+        [1] "IN7usab.oldmutualwealth.co.uk"
+    ],
+    [242] [
+        [0] "HOST_10.254.182.109",
+        [1] "IN10usab.oldmutualwealth.co.uk"
+    ],
+    [243] [
+        [0] "HOST_10.66.88.60",
+        [1] "H_10.66.86.60"
+    ],
+    [244] [
+        [0] "GI-Prod-VS",
+        [1] "msin-n.apps",
+        [2] "wwwi.oldmutual.com-10.255.80.10"
+    ],
+    [245] [
+        [0] "HOST_10.66.216.92",
+        [1] "UKGSWTWEB"
+    ],
+    [246] [
+        [0] "HOST_10.67.24.62",
+        [1] "stgr2-sso.oldmutualinternational.com"
+    ],
+    [247] [
+        [ 0] "color_blue",
+        [ 1] "color_dark_blue",
+        [ 2] "color_forest_greed",
+        [ 3] "color_light_greed",
+        [ 4] "color_orange",
+        [ 5] "color_pink",
+        [ 6] "color_purple",
+        [ 7] "color_red",
+        [ 8] "color_sea_greed",
+        [ 9] "color_sky_blue",
+        [10] "color_tur",
+        [11] "color_yellow"
+    ]
+]
+"Deleted Objects: 481"
+------>> Colorizing 
+coloring all . . . 4672 objects colored in firebrick
+coloring core . . . 1431 objects colored in olive
+coloring dmz . . . 228 objects colored in orange
+coloring office . . . 328 objects colored in gold
+coloring roadWarriors . . . 2 objects colored in dark gold
+Writing Policy to file . . . done
+Writing Objects to file . . . done

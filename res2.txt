@@ -1,0 +1,394 @@
+================< Worker >==================
+
+------>> Loading Files(~50s)
+Loading Objects(~10s) . . . OK! - 4.934179s
+Loading Policy(~40s) . . . OK! - 26.366931s
+
+------>> Colorizing(~5s)
+coloring all . . . OK! - 5003 objects colored in firebrick
+coloring core . . . OK! - 1467 objects colored in olive
+coloring dmz . . . OK! - 238 objects colored in orange
+coloring office . . . OK! - 357 objects colored in gold
+coloring roadWarriors . . . OK! - 2 objects colored in dark gold
+
+------>> Removing duplicate objects(~60s)
+Looking for duplicates(~30s) . . . OK! - 22.67504s
+Removing duplicate objects(~30s) . . . 
+332
+Ned_nedwscdqa01
+OMBSDC01
+OMBSDC02
+ombsdc04
+ombsdc06.ombs.omplc.net
+NED_Net_Users
+NED_Network
+net_10.208.0.0
+OMSA-Exchange-Server
+Rainbow-AWD-WebServer-Dev
+Rainbow-AWD-AppServer-Dev
+Net_10.251.0.0
+Net_10.251.0.0-0
+Net_10.251.0.0-1
+Net_10.253.0.0
+Net_10.253.0.0_16
+Net_10.255.0.0
+Net_10.255.0.0-0
+Net_10.255.0.0-1
+Net_10.255.0.0_Trust
+OMP_Networks
+Net_10.43.0.0
+Skandia_UK_STON
+Skandia_UK_STON_10.43.0.0
+SKANDIA-UK
+Skandia_UK_STON_10.47.0.0
+Net_196.36.95.233_OMSA
+Skandia-WS-NAT
+PC_AW_10.253.2.20
+APPS_APCICRPRWB01
+CICRPR.apps.omplc.net
+APPS_APCICRUATWB01
+CICRUAT.apps.omplc.net
+apfctprwfe01
+APP_aphdevwb01
+OMBSDC07
+APPS-APOPGPRCMD01
+APPS_apopgprcmd01.apps.omplc
+APPS-APOPGPRCMD02
+APPS_apopgprcmd02.apps.omplc
+APPS-APOPGPRWB01
+APPS_apopgprwb01.apps.omplc
+APPS-APOPGPRWB02
+APPS_apopgprwb02.apps.omplc
+APPS_APOPGTRCMD01
+APPS_OPRMSTRNRP
+APPS_apopgtrwb01.apps.omplc
+APPS_APOPGTRWB01
+APPS_OPRMSTRN
+APPS_apopgtrcmd01.apps.omplc
+APPS_OPRMSUATRP
+APPS_APOPGUATCMD01
+APPS_OPRMSUATRP_NEW
+APPS_apopguatcmd01.apps.omplc.
+APPS_oprmsuat.ombs.omplc.net
+APPS_APOPGUATWB01
+APPS_OPRMSUAT
+APPS_apopguatwb01.apps.omplc..
+APPS_APPSSPPRWB03
+APPS_Appssptrn01
+FCT-Web-Training
+OMBS_APPSTWCALS01
+APTMUATDB01.apps.omplc.net
+APTMUATWB01.apps.omplc.net
+OM_HYP11_VS
+APPS_OMBSQKV01-10.255.33.72
+APPS_OMBSQKV01.APPS.OMPLC.NET
+OMBSSPDEV04
+OM_OPG_VS
+OPRMS.APPS.OMPLC.NET_VS
+APPS_OPRMSRP.101
+OM_OPG_CV_VS
+OPRMSRP.APPS.OMPLC.NET_VS
+RAProdTS_10.255.80.50
+APPSDC03_decom
+APPSDC04-decom
+FCT-Web
+FCT.OMBS.OMPLC.NET
+OMSites_Sharepoint
+OM_SHPOINT_VIP
+APPSSPPRWB02_NEWb
+APPS_APPSSPPRWB02
+Net_VPNDR_10.254.1.0
+HYPERION_PROD_VS
+PC_GL_10.253.74.109
+GS1ACE01_10.251.212.240
+host_10.47.41.17
+VPN-Concentrator-GS
+HYPERION_PROD_NLB
+OMBSHPRODWB01
+OMBSHUATWB01
+SKUK_IOMSLDC03
+skandia.co.uk_dc_8
+host_10.255.212.228
+OMBSAPP01_10.255.213.211
+OMBSEXC02
+OMBS_OMBSEXC02
+OMBSSAV01
+OMBSSS01
+OMBSWLC01
+OMBSWLC02
+SIS_SLDC05
+PC_JH_10.253.74.111
+OMBSHPRODSER03
+OMBSHPRODDB02
+mediacard
+mediacard_backup1
+Signalling_Server
+mediacard_backup
+NED_NEDZETAFAX01
+NED_EGCDOCJHBSNT03
+Net_10.52.36.0
+Net-10.255.32.0
+Skandia_UK_STON_Supernet
+SUNGARD
+Net_OMBMNY-10.12.4.0
+Net_OMBNY_WorkstationsDR
+Net_OP-PROD_10.255.20.0
+OMBSPRCUWEB01
+OMBSSHPWEB01
+ombsdevcuweb01
+Net_10.255.216.0-0
+Net_SIS_Data
+Net_192.168.103.0
+Net_192.168.109.0
+Net_OMBMNY-192.168.12.0
+Net_OM_Bermuda
+Net_OMBMNY-192.168.4.0
+Net_OMBNY_WorkstationsPR
+OMBSDRCUWEB01
+net_10.30.10.0
+Net_SIS_SMIN11
+OMP_VPN_Users_10.252.171.0
+VPN-Users-GS
+OMP_VPN_Users_10.252.170.0
+VPN-Users-OM
+OMP_VPN_Users_10.254.0.0
+net_10.254.0.0
+OMAM_SimpleSyncSvr
+OMBSEXC01
+OMBS_OMBSEXC01
+OMBS_OMBSGP01
+OMBS_OMBSMBX01
+OMBS_OMBSMBX03
+ombsmbx04.ombs.omplc.net
+OMBS_OMBSMBX05
+OMBSMON05
+ombsqkv01.ombs.omplc.net
+OMBSSIM01-10.255.160.50
+ombssim01.ombs.omplc.net
+OMBSTMG02-int
+OMBSTMG03-int
+OMP_GROUND_FLOOR_VLAN_72
+OMP_Ground_Floor_TSG_Users
+WLC_172.28.239.11
+OMSA-Workstations-102
+OMSA_Workstations-102
+OMSA-Workstations-108
+OMSA_Workstations-108
+Rainbow-AWD-App-Dev
+Rainbow-AWD-Web-Dev
+OMSA_Workstations-109
+OMSA_WLC01
+WLC_192.168.154.11
+WLC_192.168.154.12
+Rainbow-AWD-Web-Server-SA-2
+OMSA_Rainbow_Server02
+PC_RameshGutunathan
+Selestia-DMZ-10.254.130.0
+SESTDNS01
+SESTDNS02
+SI_Futures_192.168.100.22
+SI_Futures_Firewall_GS
+Net_192.168.107.0
+SI_Futures_SA
+SI_Futures_UK
+host_192.168.100.0
+SIS_SMLRAP01_10.255.223.8
+SMPRTSCT
+Skandia-Nordic-DC-7
+SKUK_IOMSRDC07
+skandia.co.uk_dc_1
+skandia.co.uk_dc_10
+skandia.co.uk_dc_11
+skandia.co.uk_dc_2
+skandia.co.uk_dc_3
+skandia.co.uk_dc_4
+skandia.co.uk_dc_5
+skandia.co.uk_dc_6
+skandia.co.uk_dc_7
+skandia.co.uk_dc_9
+skandia_dc_Other
+UKSODC03
+UKSHWPWDC02
+UKSODC04
+WLC_10.85.20.6
+WLC_10.85.20.7
+SKUK_WLCRAD02_10.47.242.8
+WLC_10.47.30.4
+WLC_10.47.30.5
+VPN-TSGAdmin-Range
+ukcowprdc01_DC
+VPN-Concentrator-OM
+VPN-GHO-Users-10.253.249.0
+UISL_Bmouth_Network
+Net_172.17.8.0-0
+Net_172.17.8.0-1
+UISL_CAPSCO
+UISL_172.17.1.62
+UISL_Bmouth_WEB_Svr
+UISL_HOOKTRDOCPRD_1
+UISL_ZZUAT_ECO_NODE1
+Skandia-ELAM-Columbia
+SESTTMS69
+Skandia_Nordic_OM
+host_10.0.0.15
+host_10.0.0.8
+Fairburn_Router
+host_10.107.3.123
+host_10.80.55.100_E1_Nordic
+host_10.82.0.0_Nordic_LAN_Users
+Net-USAM-WS-NAT-196.36.95.26
+Net_USAM_Workstations
+OMSA_FTP_NAT_196.36.95.230
+CSAWCA002.za.omlac.net
+CSAWCA003.za.omlac.net
+host_10.13.0.61
+SKANDIA_Spain_ESMADC03
+Skandia-SA-110.2
+Skandia-SA-110.7
+OMSA_Extranet
+OMSA_Intranet
+Net_Nedbank_Workstations
+host_192.168.112.2
+host_192.168.112.3
+ltsit.skandianordic.org
+Soton_FTP_Server
+OMSA_GroupNet.Intranet
+Net_M_F_WorkstationsDR
+Net_M_F_Workstations_NAT
+Metastorm.intranet
+SI_Futures_Firewall_OM
+Net_OMSA_Workstations
+Net_10.52.0.0
+Net_Nedbank_WorkstationsDR
+Nedbank_SA_Server_1
+Nedcor-NAT-196.36.95.65
+Net_MandF_10.21.0.0_16
+OMNAM-Namibia
+OMIGSA_Proxy01
+OMIGSA_Proxy02
+SK-Stockholm-NAT-1
+SK-Stockholm-NAT-2
+USAM_SOMHBOUSDC01
+USAM_SOMHBOUSDC02
+SI_SISA8
+OMMF_10.1.0.0
+OMSA_tsfwcv002.omlac.net
+TSFWCV002_DC.za.omlac.net
+OMSA_tsawcp002_DNS04
+TSAWCP002.za.omlac.net
+OMSA_tsawcp801_DNS03
+TSAWCV001.za.omlac.net
+TSAWCV002.za.omlac.net
+TSFWCP001.za.omlac.net
+TSFWCP001_DC.za.omlac.net
+TSFWCP801.za.omlac.net
+OMSA_Wireless_Users
+SESTDC07_2
+USAM_somcdeusdc01
+USAM_somcdeusdc02
+USAM_somhauomdc01
+USAM_somhauusdc01
+USAM_somhauusdc02
+USAM_somhbousdc00
+Sweden_LAN1
+Net_10.85.0.0_16
+Sweden_LAN5
+host_80.169.74.65
+host_80.169.74.66
+Net_10.41.16.0
+Net_Luxembourg_10.70.106.0
+Net_160.123.0.0_16
+SKUK_Net_DR_10.40.0.0
+host_2.115.206.179
+host_194.185.96.11
+host_212.239.25.3
+host_89.96.214.134
+host_193.193.183.201
+host_193.148.38.211
+host_195.7.19.100
+host_217.71.64.25
+host_195.7.19.16
+Net_10.66.50.152-0
+Net_10.66.50.152-1
+Net_10.66.50.144-0
+Net_10.66.50.144-1
+Net_10.66.48.55-0
+Net_192.168.250.0-0
+Net_192.168.250.0-1
+Net_192.168.250.0-2
+Net_10.66.48.56-0
+Net_10.66.0.0-0
+SIS_SMLRAP04-1
+Net_10.254.130.175-0
+Net_172.17.1.0-1
+Net_172.17.1.192-0
+UKWKWPSDT01_EXT
+iPadtest
+TSG-ADSL-IP
+pf.skandiais.co.uk_https_vs_1
+IN7_Usab_Https_Vs_1
+pf.oldmutualwealth.co.uk
+IN7usab.oldmutualwealth.co.uk
+IN10usab.oldmutualwealth.co.uk
+H_10.66.86.60
+msin-n.apps
+wwwi.oldmutual.com-10.255.80.10
+UKGSWTWEB
+Rng_10.67.18.82-89
+stgr2-sso.oldmutualinternational.com
+color_dark_blue
+color_forest_greed
+color_light_greed
+color_orange
+color_pink
+color_purple
+color_red
+color_sea_greed
+color_sky_blue
+color_tur
+color_yellow
+OK! - 332 objects deleted
+
+------>> Removing unused objects(~1s)
+Removing unused objects(~1s) . . . OK! - 321 objects deleted 
+
+------>> Exporting Files (~10s)
+Writing Objects to file . . . done
+Writing Policy to file . . . done
+=================< Statister >================
+
+Execution time: 70.475719
+------>> Objects Statistics 
+Objects: 4369
+Hosts: 3171
+Networks: 914
+Ranges: 101
+Groups: 165
+
+------>> Policy Statistics
+Entries: 2181
+Titles: 169
+Rules: 1945
+Active R: 1668
+Disabled R: 277
+
+------>> Coloring Statistics
+"Firebrick-Hosts: 1849"
+"Firebrick-Networks: 693"
+"Firebrick-Ranges: 13"
+"Firebrick-Groups: 148"
+"--"
+"Olive-Hosts: 905"
+"Olive-Networks: 115"
+"Olive-Ranges: 85"
+"Olive-Groups: 10"
+"--"
+"Orange-Hosts: 196"
+"Orange-Networks: 27"
+"Orange-Ranges: 0"
+"Orange-Groups: 1"
+"--"
+"Gold-Hosts: 220"
+"Gold-Networks: 78"
+"Gold-Ranges: 3"
+"Gold-Groups: 6"

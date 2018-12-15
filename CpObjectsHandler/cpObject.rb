@@ -50,7 +50,7 @@ class CpObject
     end
     
     def color
-        return @raw.find{|line| line.match(/:color/)}
+        return @raw.find{|line| line.match(/:color/)}.match(/\((.*?)\)/i).captures.first
     end
 
     # for sorting

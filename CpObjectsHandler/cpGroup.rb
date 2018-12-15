@@ -12,6 +12,11 @@ class CpGroup < CpObject
 
     def add element
         @elements.push element
+        @elements.uniq!
+    end
+
+    def remove element
+        @elements.delete element
     end
 
     def include? input

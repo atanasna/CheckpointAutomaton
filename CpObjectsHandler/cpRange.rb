@@ -10,12 +10,13 @@ class CpRange < CpObject
         @last = last_ip
     end
 
+    # Based on address
     def include? input
         case input.class.name
         when "IPAddress::IPv4"
             return (@first.to_i <= input.to_i and @last.to_i >= input.to_i)
         when "CpHost"
-            return (@first.to_i <= input.ip.to_i and @last.to_i >= input.ip.to_i)
+            return (@first.to_i <= input.address.to_i and @last.to_i >= input.address.to_i)
         when "CpNetwork"
             return (@first.to_i <= input.address.to_i and @last.to_i >= input.broadcast.to_i)
         when "CpRange"
@@ -32,6 +33,24 @@ class CpRange < CpObject
             end
             
             return true
+        else
+            return false    
+        end
+    end
+
+    # Based on address
+    def equal? input
+        case input.class.name
+        when "IPAddress::IPv4"
+            return @first == input && @last == input
+        when "CpHost"
+            return @first == input.address && @last == input.address
+        when "CpNetwork"
+            return @first == input.address && @last == input.address
+        when "CpRange"
+            return @first == input.first && @last == input.last
+        when "CpGroup"
+            return false
         else
             return false    
         end

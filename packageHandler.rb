@@ -10,7 +10,7 @@ require "awesome_print"
 class PackageHandler
     attr_accessor :objects_handler, :policy_handler
 
-    def initialize objects_filename, policy_filename
+    def initialize objects_filename=nil, policy_filename=nil
         @objects_handler = nil
         @policy_handler = nil
         # Load Objects
@@ -20,13 +20,19 @@ class PackageHandler
     end
 
     def load_objects_handler objects_filename
+        if objects_filename.nil?
+            return
+        end
         start_time = Time.now
-        print "Loading Objects(~9s) . . . "
+        print "Loading Objects(~10s) . . . "
         @objects_handler = CpObjectsHandler.new objects_filename
-        puts "loaded: #{Time.now - start_time}s"
+        puts "OK! - #{Time.now - start_time}s"
     end
 
     def load_policy_handler policy_filename
+        if policy_filename.nil?
+            return
+        end
         start_time = Time.now
         print "Loading Policy(~40s) . . . "
 
@@ -35,28 +41,28 @@ class PackageHandler
         @policy_handler.rules.each do |rule|
             sources = Array.new
             destinations = Array.new
-            anyObject = CpNetwork.new "Any",IPAddress("0.0.0.0/24")
 
             rule.sources.each do |source|
                 if source=="Any"
-                    sources.push anyObject
-                else
-                    sources.push @objects_handler.objects.find{|obj| obj.name==source}
+                    #sources.push anyObject
+                    source = "All_Internet"
                 end
+                sources.push @objects_handler.objects.find{|obj| obj.name==source}
+                
             end
             
             rule.destinations.each do |destination|
                 if destination=="Any"
-                    destinations.push anyObject
-                else
-                    destinations.push @objects_handler.objects.find{|obj| obj.name==destination}
+                    #sources.push anyObject
+                    destination = "All_Internet"
                 end
+                destinations.push @objects_handler.objects.find{|obj| obj.name==destination}
             end
 
             rule.sources = sources
             rule.destinations = destinations
         end
-        puts "loaded: #{Time.now - start_time}s"
+        puts "OK! - #{Time.now - start_time}s"
     end
 
     def find_rules lookups, in_src=true, in_dst=false
@@ -80,35 +86,177 @@ class PackageHandler
         return rules.uniq.sort
     end
 
-    def stats_policy
-        puts "--------------- Policy Statistics ----------------"
-        puts "Entries: #{@policy_handler.entries.count}"
-        puts "Titles: #{@policy_handler.titles.count}"
-        puts "Rules: #{@policy_handler.rules.count}"
-        puts "Active R: #{@policy_handler.rules.find_all{|rule| rule.disabled==false}.count}"
-        puts "Disabled R: #{@policy_handler.rules.find_all{|rule| rule.disabled==true}.count}"
-        puts "--------------------------------------------------"
-    end
-    
-    def stats_objects
-        puts "-------------- Objects Statistics ----------------"
-        puts "Objects: #{@objects_handler.objects.size}"
-        puts "Hosts: #{@objects_handler.hosts.size}"
-        puts "Networks: #{@objects_handler.networks.size}"
-        puts "Ranges: #{@objects_handler.ranges.size}"
-        puts "Groups: #{@objects_handler.groups.size}"
-        puts "--------------------------------------------------"
-    end
+    def find_unused
+        unused_objects = Array.new
+        @objects_handler.objects.each do |object|
 
-    def print_fw_policy_stat fw_name
-        rulebase = @policy_handler.filter_entries_by_vs(fw_name).find_all{|rule| rule.class.name=="PolicyRule"}
-        print "#{fw_name} rules a/d/s/t: "
-        print "#{rulebase.find_all{|rule| rule.disabled==false}.count}/"
-        print "#{rulebase.find_all{|rule| rule.disabled==true}.count}/"
-        print "#{rulebase.find_all{|rule| rule.disabled==false}.find_all{|rule| rule.installed.count>1}.count}/"
-        puts "#{rulebase.count}"
+        end
     end
+    # Changers
+        def colorize
+            puts "------>> Colorizing(~5s)"
+            print "coloring all . . . "
+            puts "OK! - #{@objects_handler.colorize [IPAddress("0.0.0.0/0")], "firebrick"} objects colored in firebrick"
 
-    
+            print "coloring core . . . "
+            puts "OK! - #{@objects_handler.colorize $dc_subnets, "olive"} objects colored in olive"
+
+            print "coloring dmz . . . "
+            puts "OK! - #{@objects_handler.colorize $dmz_subnets, "orange"} objects colored in orange"
+
+            print "coloring office . . . "
+            puts "OK! - #{@objects_handler.colorize $office_subnets, "gold"} objects colored in gold"
+
+            print "coloring roadWarriors . . . "
+            puts "OK! - #{@objects_handler.colorize $rw_subnets, "dark gold"} objects colored in dark gold"
+        end
+
+        def remove_duplicates
+            start_time = Time.now
+            puts "------>> Removing duplicate objects(~60s)"
+            deleted_cnt = 0
+            print "Looking for duplicates(~30s) . . . "
+            duplicated_groups = @objects_handler.find_duplicates    
+            puts "OK! - #{Time.now - start_time}s"
+
+            print "Removing duplicate objects(~30s) . . . "
+            for_deletion = Array.new
+            duplicated_groups.each do |dup_group|
+                dup_group.each do |dup_object|
+                    if dup_object == dup_group.first
+                        next
+                    end
+                    for_deletion.push dup_object
+
+                    #Removing Duplicates from Policy
+                        @policy_handler.rules.each do |rule|
+                            contains = false
+                            if rule.sources.include? dup_object
+                                rule.sources.delete dup_object
+                                rule.sources.push dup_group.first
+                                rule.sources.uniq!
+                                contains = true
+                            end
+                            if rule.destinations.include? dup_object
+                                rule.destinations.delete dup_object
+                                rule.destinations.push dup_group.first
+                                rule.destinations.uniq!
+                                contains = true
+                            end
+                            if contains
+                                rule.raw.each do |l|
+                                    l.gsub!(/^\t{5}:Name \(#{dup_object.name}\)/,"\t\t\t\t\t:Name (#{dup_group.first.name})")
+                                end
+                            end
+                        end
+
+                    #Removing Duplicates from Objects
+                        @objects_handler.groups.each do |group|
+                            if group.include? dup_object
+                                group.remove dup_object
+                                group.add dup_group.first
+
+                                group.raw.each do |l|
+                                    l.gsub!(/^\t{4}:Name \(#{dup_object.name}\)/,"\t\t\t\t:Name (#{dup_group.first.name})")
+                                end
+                            end
+                        end
+                end
+            end         
+            for_deletion.each do |obj|
+                @objects_handler.objects.delete(obj)
+                deleted_cnt += 1
+            end
+            puts "OK! - #{deleted_cnt} objects deleted"  
+        end
+
+        def remove_unused unused_objects_names
+            start_time = Time.now
+            puts "------>> Removing unused objects(~1s)"
+            print "Removing unused objects(~1s) . . . "
+            deleted_cnt = 0
+            for_deletion = Array.new
+
+            @objects_handler.objects.each do |object|
+                if unused_objects_names.include? object.name
+                    for_deletion.push object
+                end
+            end
+
+            for_deletion.each do |obj|
+                @objects_handler.objects.delete(obj)
+                deleted_cnt += 1
+            end
+
+            puts "OK! - #{deleted_cnt} objects deleted "
+        end
+
+
+    # Exports
+        def export_policy filename
+            print "Writing Policy to file . . . "
+            File.open(filename, "w+") do |f|
+                @policy_handler.generate_raw.each { |element| f.puts(element) }
+            end
+            puts "done" #{filename}"
+        end
+
+        def export_objects filename
+            print "Writing Objects to file . . . "
+            File.open(filename, "w+") do |f|
+                @objects_handler.generate_raw.each { |element| f.puts(element) }
+            end
+            puts "done" #{filename}"
+        end
+    # Statistics
+        def print_policy_stats
+            puts "------>> Policy Statistics"
+            puts "Entries: #{@policy_handler.entries.count}"
+            puts "Titles: #{@policy_handler.titles.count}"
+            puts "Rules: #{@policy_handler.rules.count}"
+            puts "Active R: #{@policy_handler.rules.find_all{|rule| rule.disabled==false}.count}"
+            puts "Disabled R: #{@policy_handler.rules.find_all{|rule| rule.disabled==true}.count}"
+        end
+        
+        def print_objects_stats
+            puts "------>> Objects Statistics "
+            puts "Objects: #{@objects_handler.objects.size}"
+            puts "Hosts: #{@objects_handler.hosts.size}"
+            puts "Networks: #{@objects_handler.networks.size}"
+            puts "Ranges: #{@objects_handler.ranges.size}"
+            puts "Groups: #{@objects_handler.groups.size}"
+        end
+
+        def print_policy_stat_by_fw fw_name
+            rulebase = @policy_handler.filter_entries_by_vs(fw_name).find_all{|rule| rule.class.name=="PolicyRule"}
+            print "#{fw_name} rules a/d/s/t: "
+            print "#{rulebase.find_all{|rule| rule.disabled==false}.count}/"
+            print "#{rulebase.find_all{|rule| rule.disabled==true}.count}/"
+            print "#{rulebase.find_all{|rule| rule.disabled==false}.find_all{|rule| rule.installed.count>1}.count}/"
+            puts "#{rulebase.count}"
+        end
+
+        def print_color_stats
+            puts "------>> Coloring Statistics"
+            ap "Firebrick-Hosts: #{@objects_handler.objects.find_all{|obj| obj.color=="firebrick" and obj.class.name=="CpHost"}.size}"
+            ap "Firebrick-Networks: #{@objects_handler.objects.find_all{|obj| obj.color=="firebrick" and obj.class.name=="CpNetwork"}.size}"
+            ap "Firebrick-Ranges: #{@objects_handler.objects.find_all{|obj| obj.color=="firebrick" and obj.class.name=="CpRange"}.size}"
+            ap "Firebrick-Groups: #{@objects_handler.objects.find_all{|obj| obj.color=="firebrick" and obj.class.name=="CpGroup"}.size}"
+            ap "--"
+            ap "Olive-Hosts: #{@objects_handler.objects.find_all{|obj| obj.color=="\"olive drab\"" and obj.class.name=="CpHost"}.size}"
+            ap "Olive-Networks: #{@objects_handler.objects.find_all{|obj| obj.color=="\"olive drab\"" and obj.class.name=="CpNetwork"}.size}"
+            ap "Olive-Ranges: #{@objects_handler.objects.find_all{|obj| obj.color=="\"olive drab\"" and obj.class.name=="CpRange"}.size}"
+            ap "Olive-Groups: #{@objects_handler.objects.find_all{|obj| obj.color=="\"olive drab\"" and obj.class.name=="CpGroup"}.size}"
+            ap "--"
+            ap "Orange-Hosts: #{@objects_handler.objects.find_all{|obj| obj.color=="orange" and obj.class.name=="CpHost"}.size}"
+            ap "Orange-Networks: #{@objects_handler.objects.find_all{|obj| obj.color=="orange" and obj.class.name=="CpNetwork"}.size}"
+            ap "Orange-Ranges: #{@objects_handler.objects.find_all{|obj| obj.color=="orange" and obj.class.name=="CpRange"}.size}"
+            ap "Orange-Groups: #{@objects_handler.objects.find_all{|obj| obj.color=="orange" and obj.class.name=="CpGroup"}.size}"
+            ap "--"
+            ap "Gold-Hosts: #{@objects_handler.objects.find_all{|obj| obj.color=="gold" and obj.class.name=="CpHost"}.size}"
+            ap "Gold-Networks: #{@objects_handler.objects.find_all{|obj| obj.color=="gold" and obj.class.name=="CpNetwork"}.size}"
+            ap "Gold-Ranges: #{@objects_handler.objects.find_all{|obj| obj.color=="gold" and obj.class.name=="CpRange"}.size}"
+            ap "Gold-Groups: #{@objects_handler.objects.find_all{|obj| obj.color=="gold" and obj.class.name=="CpGroup"}.size}"
+        end
 end
 

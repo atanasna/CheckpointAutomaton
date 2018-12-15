@@ -2,35 +2,32 @@ require "ipaddress"
 require_relative "CpObject.rb"
 
 class CpNetwork < CpObject
-    attr_reader :name
+    attr_reader :name, :address
 
-    def initialize name, network
+    def initialize name, address
         super name
-        @network = network
-    end
-
-    def address
-        return @network
+        @address = address
     end
 
     def broadcast
-        return @network.broadcast
+        return @address.broadcast
     end
 
     def prefix
-        return @network.prefix
+        return @address.prefix
     end
 
+    # Based on address
     def include? input 
         case input.class.name
         when "IPAddress::IPv4"
-            return @network.include? input
+            return @address.include? input
         when "CpHost"
-            return @network.include? input.ip
+            return @address.include? input.address
         when "CpNetwork"
-            return @network.include? input.address
+            return @address.include? input.address
         when "CpRange"
-            return (@network.include? input.first and @network.include? input.last )
+            return (@address.include? input.first and @address.include? input.last )
         when "CpGroup"
             if input.elements.empty?
                 return false
@@ -43,6 +40,24 @@ class CpNetwork < CpObject
             end
 
             return true
+        else
+            return false    
+        end
+    end
+
+    # Based on address
+    def equal? input
+        case input.class.name
+        when "IPAddress::IPv4"
+            return @address == input
+        when "CpHost"
+            return @address == input.address
+        when "CpNetwork"
+            return @address == input.address
+        when "CpRange"
+            return @address == input.first && @address == input.last
+        when "CpGroup"
+            return false
         else
             return false    
         end
