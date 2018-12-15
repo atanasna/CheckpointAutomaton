@@ -42,26 +42,57 @@ class PackageHandler
             sources = Array.new
             destinations = Array.new
 
-            rule.sources.each do |source|
-                if source=="Any"
-                    #sources.push anyObject
-                    source = "All_Internet"
+            all = rule.sources + rule.destinations
+        
+            all.each do |target|
+                if rule.sources.include? target
+                    if target=="Any" then target = "All_Internet" end
+                    sources.push @objects_handler.objects.find{|obj| obj.name==target}
                 end
-                sources.push @objects_handler.objects.find{|obj| obj.name==source}
-                
-            end
-            
-            rule.destinations.each do |destination|
-                if destination=="Any"
-                    #sources.push anyObject
-                    destination = "All_Internet"
+                if rule.destinations.include? target
+                    if target=="Any" then target = "All_Internet" end
+                    destinations.push @objects_handler.objects.find{|obj| obj.name==target}
                 end
-                destinations.push @objects_handler.objects.find{|obj| obj.name==destination}
             end
 
             rule.sources = sources
             rule.destinations = destinations
         end
+
+        @policy_handler.nat_rules.each do |nat_rule|
+            sources = Array.new
+            destinations = Array.new
+            sources_translated = Array.new
+            destinations_translated = Array.new
+            all = nat_rule.sources + nat_rule.destinations + nat_rule.sources_translated + nat_rule.destinations_translated
+            
+
+            all.each do |target|
+                if nat_rule.sources.include? target
+                    if target=="Any" then target = "All_Internet" end
+                    sources.push @objects_handler.objects.find{|obj| obj.name==target}
+                end
+                if nat_rule.destinations.include? target
+                    if target=="Any" then target = "All_Internet" end
+                    destinations.push @objects_handler.objects.find{|obj| obj.name==target}
+                end
+                if nat_rule.sources.include? target
+                    if target=="Any" then target = "All_Internet" end
+                    sources_translated.push @objects_handler.objects.find{|obj| obj.name==target}
+                end
+                if nat_rule.sources.include? target
+                    if target=="Any" then target = "All_Internet" end
+                    sources_translated.push @objects_handler.objects.find{|obj| obj.name==target}
+                end
+            end
+
+            nat_rule.sources = sources
+            nat_rule.destinations = destinations
+            nat_rule.sources_translated = sources_translated
+            nat_rule.destinations_translated = destinations_translated
+        end
+        puts "------\n----"
+        ap policy_handler.nat_rules[10]
         puts "OK! - #{Time.now - start_time}s"
     end
 
@@ -214,6 +245,7 @@ class PackageHandler
             puts "Entries: #{@policy_handler.entries.count}"
             puts "Titles: #{@policy_handler.titles.count}"
             puts "Rules: #{@policy_handler.rules.count}"
+            puts "NAT Rules: #{@policy_handler.nat_rules.count}"
             puts "Active R: #{@policy_handler.rules.find_all{|rule| rule.disabled==false}.count}"
             puts "Disabled R: #{@policy_handler.rules.find_all{|rule| rule.disabled==true}.count}"
         end

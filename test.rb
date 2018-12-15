@@ -14,6 +14,7 @@ require "awesome_print"
 #package_handler = PackageHandler.new "objects_5_0_perimeter_c_duplicates.c"#, "perimeter_original.pol"
 package_handler = PackageHandler.new "objects_5_0_perimeter_c_unused.c"#, "perimeter_original.pol"
 for_deletion = Array.new
+ap 
 package_handler.objects_handler.objects.each do |object|
     if $unused_objects.include? object.name
         for_deletion.push object

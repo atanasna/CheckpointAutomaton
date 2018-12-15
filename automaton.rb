@@ -35,8 +35,8 @@ start_time = Time.now
     # Exports
         puts
         puts "------>> Exporting Files (~10s)"
-        package_handler.export_objects "objects_5_0_perimeter_c_tmp.c"
-        package_handler.export_policy "perimeter_c_tmp.pol"
+        package_handler.export_objects "objects_5_0_perimeter_c_tmp2.c"
+        package_handler.export_policy "perimeter_c_tmp2.pol"
 
 end_time = Time.now
 # Print Statistics

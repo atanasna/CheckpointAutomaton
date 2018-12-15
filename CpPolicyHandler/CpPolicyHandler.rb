@@ -17,6 +17,9 @@ class CpPolicyHandler
         def rules
             return @entries.find_all{|entry| entry.class.name == "CpPolicyRule"}
         end
+        def nat_rules
+            return @entries.find_all{|entry| entry.class.name == "CpPolicyNatRule"}
+        end
         def titles
             return @entries.find_all{|entry| entry.class.name == "CpPolicyTitle"}
         end

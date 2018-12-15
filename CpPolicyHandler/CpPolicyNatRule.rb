@@ -2,7 +2,7 @@ require_relative "../helpers.rb"
 require_relative "CpPolicyEntry.rb"
 
 class CpPolicyNatRule < CpPolicyEntry
-    attr_accessor :index, :type, :installed, :sources, :destinations, :disabled
+    attr_accessor :index, :type, :installed, :sources, :sources_translated, :destinations, :destinations_translated, :disabled
 
     def initialize raw, position, index 
         super(raw, position)
@@ -22,7 +22,6 @@ class CpPolicyNatRule < CpPolicyEntry
 
         @installed = parse_tag "install"
         @comment = parse_tag "comments"
-
     end
 
 end
