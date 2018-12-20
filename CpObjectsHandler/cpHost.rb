@@ -29,7 +29,7 @@ class CpHost < CpObject
     end
 
     # Based on Address
-    def equal? input
+    def ip_equal? input
         case input.class.name
         when "IPAddress::IPv4"
             return @address == input

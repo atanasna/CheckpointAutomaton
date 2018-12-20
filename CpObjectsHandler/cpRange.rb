@@ -39,7 +39,7 @@ class CpRange < CpObject
     end
 
     # Based on address
-    def equal? input
+    def ip_equal? input
         case input.class.name
         when "IPAddress::IPv4"
             return @first == input && @last == input

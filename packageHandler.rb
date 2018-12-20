@@ -38,12 +38,21 @@ class PackageHandler
 
         @policy_handler = CpPolicyHandler.from_file policy_filename
 
-        @policy_handler.rules.each do |rule|
+        all_rules = @policy_handler.rules + @policy_handler.nat_rules
+        all_rules.each do |rule|
             sources = Array.new
             destinations = Array.new
+            sources_translated = Array.new
+            destinations_translated = Array.new
+            all = Array.new
 
-            all = rule.sources + rule.destinations
-        
+            if rule.class.name == "CpPolicyRule"
+                all = rule.sources + rule.destinations
+            end
+            if rule.class.name == "CpPolicyNatRule"
+                all = rule.sources + rule.destinations + rule.sources_translated + rule.destinations_translated
+            end
+            
             all.each do |target|
                 if rule.sources.include? target
                     if target=="Any" then target = "All_Internet" end
@@ -53,77 +62,83 @@ class PackageHandler
                     if target=="Any" then target = "All_Internet" end
                     destinations.push @objects_handler.objects.find{|obj| obj.name==target}
                 end
+                if rule.class.name == "CpPolicyNatRule"
+                    if rule.sources_translated.include? target
+                        if target=="Any" then target = "All_Internet" end
+                        sources_translated.push @objects_handler.objects.find{|obj| obj.name==target}
+                    end
+                    if rule.destinations_translated.include? target
+                        if target=="Any" then target = "All_Internet" end
+                        destinations_translated.push @objects_handler.objects.find{|obj| obj.name==target}
+                    end
+                end
             end
 
             rule.sources = sources
             rule.destinations = destinations
-        end
-
-        @policy_handler.nat_rules.each do |nat_rule|
-            sources = Array.new
-            destinations = Array.new
-            sources_translated = Array.new
-            destinations_translated = Array.new
-            all = nat_rule.sources + nat_rule.destinations + nat_rule.sources_translated + nat_rule.destinations_translated
-            
-
-            all.each do |target|
-                if nat_rule.sources.include? target
-                    if target=="Any" then target = "All_Internet" end
-                    sources.push @objects_handler.objects.find{|obj| obj.name==target}
-                end
-                if nat_rule.destinations.include? target
-                    if target=="Any" then target = "All_Internet" end
-                    destinations.push @objects_handler.objects.find{|obj| obj.name==target}
-                end
-                if nat_rule.sources.include? target
-                    if target=="Any" then target = "All_Internet" end
-                    sources_translated.push @objects_handler.objects.find{|obj| obj.name==target}
-                end
-                if nat_rule.sources.include? target
-                    if target=="Any" then target = "All_Internet" end
-                    sources_translated.push @objects_handler.objects.find{|obj| obj.name==target}
-                end
+            if rule.class.name == "CpPolicyNatRule"
+                rule.sources_translated = sources_translated
+                rule.destinations_translated = destinations_translated
             end
-
-            nat_rule.sources = sources
-            nat_rule.destinations = destinations
-            nat_rule.sources_translated = sources_translated
-            nat_rule.destinations_translated = destinations_translated
         end
-        puts "------\n----"
-        ap policy_handler.nat_rules[10]
         puts "OK! - #{Time.now - start_time}s"
     end
 
-    def find_rules lookups, in_src=true, in_dst=false
-        rules = Array.new
-        
-        @policy_handler.rules.each do |rule|
-            lookups.each do |lookup|
-                if in_src
-                    if rule.sources.find{|source| source.include? lookup}
-                        rules.push rule
+    #comment
+        #def find_rules lookups, in_src=true, in_dst=false
+        #    rules = Array.new
+        #    @policy_handler.rules.each do |rule|
+        #        lookups.each do |lookup|
+        #            if in_src
+        #                if rule.sources.find{|source| source.include? lookup}
+        #                    rules.push rule
+        #                end
+        #            end
+        #            if in_dst
+        #                if rule.destinations.find{|destination| destination.include? lookup}
+        #                    rules.push rule
+        #                end
+        #            end
+        #        end
+        #    end
+        #    return rules.uniq.sort
+        #end
+
+        def find_unused_objects_in_policy
+            unused_objects = Array.new
+            @objects_handler.objects.each do |object|
+                used = false
+                @policy_handler.entries.each do |entry|
+                   
+                    if entry.respond_to?('sources') and entry.sources.include? object
+                        used = true
+                        break
+                    end
+                    if entry.respond_to?('destinations') and entry.destinations.include? object
+                        used = true
+                        break
+                    end
+                    if entry.respond_to?('sources_translated') and entry.sources_translated.include? object
+                        used = true
+                        break
+                    end
+                    if entry.respond_to?('destinations_translated') and entry.destinations_translated.include? object
+                        used = true
+                        break
                     end
                 end
-                if in_dst
-                    if rule.destinations.find{|destination| destination.include? lookup}
-                        rules.push rule
-                    end
+
+                if not used
+                    unused_objects.push object
                 end
             end
+
+            
+            return unused_objects
         end
 
-        return rules.uniq.sort
-    end
-
-    def find_unused
-        unused_objects = Array.new
-        @objects_handler.objects.each do |object|
-
-        end
-    end
-    # Changers
+    # Modifiers
+        #independent
         def colorize
             puts "------>> Colorizing(~5s)"
             print "coloring all . . . "
@@ -141,13 +156,15 @@ class PackageHandler
             print "coloring roadWarriors . . . "
             puts "OK! - #{@objects_handler.colorize $rw_subnets, "dark gold"} objects colored in dark gold"
         end
-
+        #independent
         def remove_duplicates
             start_time = Time.now
             puts "------>> Removing duplicate objects(~60s)"
-            deleted_cnt = 0
             print "Looking for duplicates(~30s) . . . "
+            deleted_cnt = 0
             duplicated_groups = @objects_handler.find_duplicates    
+
+            names = Array.new
             puts "OK! - #{Time.now - start_time}s"
 
             print "Removing duplicate objects(~30s) . . . "
@@ -159,8 +176,9 @@ class PackageHandler
                     end
                     for_deletion.push dup_object
 
-                    #Removing Duplicates from Policy
-                        @policy_handler.rules.each do |rule|
+                    #Removing Duplicates from Policy Rules
+                        all_rules = @policy_handler.nat_rules + @policy_handler.rules
+                        all_rules.each do |rule|
                             contains = false
                             if rule.sources.include? dup_object
                                 rule.sources.delete dup_object
@@ -173,6 +191,20 @@ class PackageHandler
                                 rule.destinations.push dup_group.first
                                 rule.destinations.uniq!
                                 contains = true
+                            end
+                            if rule.class.name == "CpPolicyNatRule"
+                                if rule.sources_translated.include? dup_object
+                                    rule.sources_translated.delete dup_object
+                                    rule.sources_translated.push dup_group.first
+                                    rule.sources_translated.uniq!
+                                    contains = true
+                                end
+                                if rule.destinations_translated.include? dup_object
+                                    rule.destinations_translated.delete dup_object
+                                    rule.destinations_translated.push dup_group.first
+                                    rule.destinations_translated.uniq!
+                                    contains = true
+                                end
                             end
                             if contains
                                 rule.raw.each do |l|
@@ -201,35 +233,52 @@ class PackageHandler
             puts "OK! - #{deleted_cnt} objects deleted"  
         end
 
-        def remove_unused unused_objects_names
+        #needs tufin
+        def remove_unused
             start_time = Time.now
-            puts "------>> Removing unused objects(~1s)"
-            print "Removing unused objects(~1s) . . . "
             deleted_cnt = 0
-            for_deletion = Array.new
+            puts "------>> Removing unused objects(~1s)"
+            puts "Looking for unused objects(~0s) . . . OK! - tufin provided"
 
-            @objects_handler.objects.each do |object|
-                if unused_objects_names.include? object.name
-                    for_deletion.push object
+            #unused_objects = find_unused
+            #puts
+            #puts unused_objects.size
+            #unused_objects.each{|o| ap o.name}
+            #
+            print "Removing unused objects(~1s) . . . "
+            $unused_objects.each do |unused_object_name|
+                unused_object = @objects_handler.objects.find{|o| o.name == unused_object_name}
+                if not unused_object.nil?
+                    @objects_handler.objects.delete(unused_object)
+                    deleted_cnt +=1
                 end
             end
-
-            for_deletion.each do |obj|
-                @objects_handler.objects.delete(obj)
-                deleted_cnt += 1
-            end
-
             puts "OK! - #{deleted_cnt} objects deleted "
         end
 
+        #needs tufin
+        def remove_shadowed_rules
+            start_time = Time.now
+            deleted_cnt = 0
+            puts "------>> Removing shadowed rules (~1s)"
+            puts "Looking for shadowed rules(~0s) . . . OK! - tufin provided"
+            
+            print "Removing shadowed rules(~1s) . . . "
+            $shadowed_rules.each do |rule_i|
+                if @policy_handler.delete_rule rule_i
+                    deleted_cnt +=1
+                end
+            end
+            puts "OK! - #{deleted_cnt} objects deleted "
+        end
 
-    # Exports
+    # Exporters
         def export_policy filename
             print "Writing Policy to file . . . "
             File.open(filename, "w+") do |f|
                 @policy_handler.generate_raw.each { |element| f.puts(element) }
             end
-            puts "done" #{filename}"
+            puts "OK! - #{filename}"
         end
 
         def export_objects filename
@@ -237,7 +286,7 @@ class PackageHandler
             File.open(filename, "w+") do |f|
                 @objects_handler.generate_raw.each { |element| f.puts(element) }
             end
-            puts "done" #{filename}"
+            puts "OK! - #{filename}"
         end
     # Statistics
         def print_policy_stats

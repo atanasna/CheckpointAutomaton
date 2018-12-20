@@ -7,7 +7,7 @@ require_relative "CpRange.rb"
 class CpObjectsHandler
     include ParserHelpers
     
-    attr_reader :objects
+    attr_reader :objects, :raw
 
     def initialize filename
         
@@ -21,6 +21,10 @@ class CpObjectsHandler
     # Accessors
     def networks
         return @objects.find_all{|obj| obj.class.name == "CpNetwork"}
+    end
+
+    def gateways
+        return @objects.find_all{|obj| obj.class.name == "CpGateway"}
     end
 
     def hosts
@@ -78,14 +82,12 @@ class CpObjectsHandler
 
         #Load simple objects (Hosts, Networks, Ranges)
         objects_raw.each do |obj_raw|
-            begin
                 obj_name = obj_raw.find{|l| l.match(/:name \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
                 
                 obj_type = obj_raw.find{|l| l.match(/^\t{3}:type \((.*?)\)/i)}.match(/\((.*?)\)/i).captures.first
 
                 case obj_type
-                when "host", "gateway"
-
+                when "host","gateway"
                     ip = obj_raw.find{|l| l.match(/:ipaddr \(.*?\)/)}.match(/\((.*?)\)/i).captures.first
                     ip = IPAddress ip
                     host = CpHost.new obj_name,ip
@@ -119,13 +121,6 @@ class CpObjectsHandler
                     object.raw = obj_raw
                     @objects.push object
                 end
-
-
-            rescue
-                ap obj_raw
-                ap "SOMETHING WHEN WRONG"
-                exit
-            end
         end
 
         groups.each do |group|
@@ -141,12 +136,14 @@ class CpObjectsHandler
                         #pp "U: #{group.name} - #{el_name}"
                         #pp node_name
                     else
+                        group.original.push obj
                         if obj.class.name == "CpGroup"
                             #pp "G: #{group.name} - #{el_name}"
                             group.unknown.push el_name
                         else
                             group.add obj
                         end
+
                     end
 
             end
@@ -181,7 +178,7 @@ class CpObjectsHandler
         dup_objects = Array.new
 
         @objects.each do |prim_obj|
-            duplicates = @objects.find_all{|obj| prim_obj.equal? obj}
+            duplicates = @objects.find_all{|obj| prim_obj.ip_equal? obj}
             if duplicates.size > 1
                 dup_objects.push duplicates.sort
             end

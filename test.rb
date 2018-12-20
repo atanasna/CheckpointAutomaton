@@ -13,26 +13,20 @@ require "awesome_print"
 #package_handler = PackageHandler.new "objects_5_0_perimeter_original.c"#, "perimeter_original.pol"
 #package_handler = PackageHandler.new "objects_5_0_perimeter_c_duplicates.c"#, "perimeter_original.pol"
 package_handler = PackageHandler.new "objects_5_0_perimeter_c_unused.c"#, "perimeter_original.pol"
-for_deletion = Array.new
-ap 
-package_handler.objects_handler.objects.each do |object|
-    if $unused_objects.include? object.name
-        for_deletion.push object
+
+groups = package_handler.objects_handler.groups
+groups.each_with_index do |g,i|
+    g.elements.each do |el|
+        if el.class == CpGroup
+            ap "#{g.name}/#{i} - #{el.name} - #{el.class.name}"
+        end
     end
 end
 
-ap for_deletion.size
+ap ""
+ap ""
 
-
-
-
-
-
-#Remove Duplicates from Policy
-
-#delete_duplicates duplicated_groups, package_handler
-
-#package_handler.colorize
-
-#package_handler.export_policy "perimeter_custom_remDup.pol"
-#package_handler.export_objects "objects_5_0_perimeter_custom_remDup.C"
+group = package_handler.objects_handler.groups[1]
+group.expand.each do |el|
+    ap "#{el.name} - #{el.class.name}"
+end

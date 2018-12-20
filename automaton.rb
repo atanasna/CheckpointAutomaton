@@ -6,7 +6,8 @@ require_relative "CpObjectsHandler/cpRange.rb"
 require_relative "CpObjectsHandler/cpObjectsHandler.rb"
 require_relative "packageHandler.rb"
 require_relative "../topographer/topographer.rb"
-require_relative "manualMapping.rb"
+require_relative "config/localMappings.rb"
+require_relative "config/tufinMappings.rb"
 require "ipaddress"
 require "awesome_print"
 
@@ -17,26 +18,37 @@ start_time = Time.now
     # Load info
         puts
         puts "------>> Loading Files(~50s)"
-        package_handler = PackageHandler.new "objects_5_0_perimeter_original.c", "perimeter_original.pol"
+        package_handler = PackageHandler.new "objects_5_0_perimeter_original2.c", "perimeter_original2.pol"
         #topo = Topographer.new "../topographer/json_graph"
 
     # Colorize
         puts
         package_handler.colorize
 
+    # Remove fully shadowed rules
+        puts
+        package_handler.remove_shadowed_rules
+
+    # Tag zerohit rules
+        #puts
+        #package_handler.tag_zerohit_rules
+
+    # Remove unused objects
+        puts
+        package_handler.remove_unused
+
     # Remove duplicate objects
         puts
         package_handler.remove_duplicates
 
-    # Remove unused objects
-        puts
-        package_handler.remove_unused $unused_objects
+
+
 
     # Exports
         puts
         puts "------>> Exporting Files (~10s)"
-        package_handler.export_objects "objects_5_0_perimeter_c_tmp2.c"
-        package_handler.export_policy "perimeter_c_tmp2.pol"
+        package_handler.export_objects "objects_5_0_perimeter_custom.c"
+        package_handler.export_policy "perimeter_custom.pol"
 
 end_time = Time.now
 # Print Statistics

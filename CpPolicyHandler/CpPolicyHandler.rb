@@ -23,53 +23,36 @@ class CpPolicyHandler
         def titles
             return @entries.find_all{|entry| entry.class.name == "CpPolicyTitle"}
         end
-    
+
+    # Modifiers
+        def delete_rule rule_index
+            rule = rules.find{|rule| rule.index == rule_index}
+            if not rule.nil?
+                @entries.delete(rule)
+                return true
+            end
+            return false
+        end
+
+        def reindex_entries
+            rule_index = 1
+            nat_index = 1
+            position = 0
+
+            @entries.each do |entry|
+                case entry.class.name
+                when "CpPolicyRule"
+                    entry.index = rule_index
+                    rule_index += 1
+                when "CpPolicyNatRule"
+                    entry.index = nat_index
+                    nat_index += 1
+                end
+                entry.position = position
+            end
+        end
+
     # Helpers
-        def filter_entries_by_vs vs_name
-            entries = Array.new
-            @entries.each do |entry|
-                if entry.class.name == "PolicyRule"
-                    #pp "#{entry.position} : #{entry.installed} - #{entry.installed.include?(vs_name)}"
-                    if entry.installed.include?(vs_name) || entry.installed.include?("Any")
-                        entries.push entry
-                    end
-                else
-                    entries.push entry
-                end
-            end
-
-            return entries
-        end
-
-        def to_file filename
-            File.open(filename, "w+") do |f|
-                @raw.each { |element| f.puts(element) }
-            end
-        end
-
-        def generate_raw 
-            fw_policy_start_index = @raw.index(@raw.find{ |l| l[/\t:fw_policies \(/]}) + 20
-            fw_policy_end_index = @raw.index(@raw.find{ |l| l[/\t:slp_policies \(/]})
-
-            start_new_raw = @raw.slice 0,fw_policy_start_index
-            end_new_raw = @raw.slice fw_policy_end_index-2, @raw.count-1
-
-            new_entries = Array.new
-            @entries.each do |entry|
-
-                if entry.class.name == "CpPolicyNatRule" 
-                    new_entries.push "\t\t:rule_adtr ("
-                else
-                    new_entries.push "\t\t:rule ("
-                end
-                
-                new_entries += entry.raw
-                new_entries.push "\t\t)"
-            end
-
-            return start_new_raw + new_entries + end_new_raw
-        end
-
         def load
             fw_policy = open_tag @raw, "fw_policies"
             raw_rules = open_tag fw_policy.first, "rule"
@@ -100,6 +83,69 @@ class CpPolicyHandler
                 end
                 @entries.push entry
                 position += 1
+            end
+        end
+
+        def generate_raw 
+            fw_policy_start_index = @raw.index(@raw.find{ |l| l[/\t:fw_policies \(/]}) + 20
+            fw_policy_end_index = @raw.index(@raw.find{ |l| l[/\t:slp_policies \(/]})
+
+            start_new_raw = @raw.slice 0,fw_policy_start_index
+            end_new_raw = @raw.slice fw_policy_end_index-2, @raw.count-1
+
+            new_entries = Array.new
+            @entries.each do |entry|
+
+                if entry.class.name == "CpPolicyNatRule"
+                    new_entries.push "\t\t:rule_adtr ("
+                else
+                    new_entries.push "\t\t:rule ("
+                end
+                
+                new_entries += entry.raw
+                new_entries.push "\t\t)"
+            end
+
+            return start_new_raw + new_entries + end_new_raw
+        end
+
+        def to_file filename
+            File.open(filename, "w+") do |f|
+                @raw.each { |element| f.puts(element) }
+            end
+        end
+
+        def filter_entries_by_vs vs_name
+            entries = Array.new
+            @entries.each do |entry|
+                if entry.class.name == "PolicyRule"
+                    #pp "#{entry.position} : #{entry.installed} - #{entry.installed.include?(vs_name)}"
+                    if entry.installed.include?(vs_name) || entry.installed.include?("Any")
+                        entries.push entry
+                    end
+                else
+                    entries.push entry
+                end
+            end
+
+            return entries
+        end
+
+        def reindex_entries
+            rule_index = 1
+            nat_index = 1
+            position = 0
+
+            @entries.each do |entry|
+                case entry.class.name
+                when "CpPolicyRule"
+                    entry.index = rule_index
+                    rule_index += 1
+                when "CpPolicyNatRule"
+                    entry.index = nat_index
+                    nat_index += 1
+                end
+                entry.position = position
             end
         end
 

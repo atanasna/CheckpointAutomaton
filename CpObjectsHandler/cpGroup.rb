@@ -2,11 +2,12 @@ require "ipaddress"
 require_relative "CpObject.rb"
 
 class CpGroup < CpObject
-    attr_accessor :name, :elements, :unknown
+    attr_accessor :name, :elements, :original, :unknown
     
     def initialize name
         super name
         @elements = Array.new
+        @original = Array.new
         @unknown = Array.new
     end
 

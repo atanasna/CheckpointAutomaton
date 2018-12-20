@@ -53,6 +53,10 @@ class CpObject
         return @raw.find{|line| line.match(/:color/)}.match(/\((.*?)\)/i).captures.first
     end
 
+    def ip_equal? input
+        return false
+    end
+
     # for sorting
     def <=> (cp_object)
         @name <=> cp_object.name
