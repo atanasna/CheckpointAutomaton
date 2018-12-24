@@ -39,25 +39,16 @@ class CpObjectsHandler
         return @objects.find_all{|obj| obj.class.name == "CpGroup"}
     end
 
-    # Helpers
-    def solve_group group
-        elements = Array.new
-        #pp "checking #{group.name}"
-        #pp group.unknown
-        if group.unknown != 0
-            group.unknown.each do |un|
-                in_group = groups.find{|g| g.name == un}
-                #pp "going in: #{in_group.name}"
-                elements += solve_group in_group
-            end
-            group.unknown = Array.new
-        else
-            return group.elements
-        end
-
-        return elements
+    # Searchers
+    def find name
+        return @objects.find{|obj| obj.name == name}
     end
 
+    def find_all name
+        return @objects.find_all{|obj| obj.name == name}
+    end
+
+    # Helpers
     def generate_raw 
         network_objects_start_index = @raw.index(@raw.find{ |l| l[/\t:network_objects \(/]}) + 1
         network_objects_end_index = @raw.index(@raw.find{ |l| l[/\t:vs_slot_objects \(/]}) + 1
@@ -129,31 +120,14 @@ class CpObjectsHandler
             elements_names.each do |el_name|
                     el_name = el_name.match(/\((.*?)\)/i).captures.first
                     #pp el_name
+                    
                     obj = @objects.find{|n| n.name == el_name}
 
-                    if obj.nil?
-                        group.unknown.push el_name
-                        #pp "U: #{group.name} - #{el_name}"
-                        #pp node_name
-                    else
-                        group.original.push obj
-                        if obj.class.name == "CpGroup"
-                            #pp "G: #{group.name} - #{el_name}"
-                            group.unknown.push el_name
-                        else
-                            group.add obj
-                        end
-
+                    if not obj.nil?
+                        group.add obj
                     end
 
             end
-        end
-
-        groups.each do |group|
-            if group.unknown.size != 0
-                group.elements += solve_group group
-            end
-            group.elements.uniq!
         end
     end
 
@@ -175,15 +149,15 @@ class CpObjectsHandler
     end
 
     def find_duplicates 
-        dup_objects = Array.new
+        duplicate_groups = Array.new
 
         @objects.each do |prim_obj|
             duplicates = @objects.find_all{|obj| prim_obj.ip_equal? obj}
-            if duplicates.size > 1
-                dup_objects.push duplicates.sort
+            if not duplicates.empty?
+                duplicate_groups.push duplicates.sort
             end
         end
 
-        return dup_objects.uniq
+        return duplicate_groups.uniq
     end
 end

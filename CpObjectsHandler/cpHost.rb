@@ -11,12 +11,12 @@ class CpHost < CpObject
     end
 
     # Based on address
-    def include? input
-        case input.class.name
+    def include? object
+        case object.class.name
         when "IPAddress::IPv4"
-            return @address == input
+            return @address == object
         when "CpHost"
-            return @address == input.address
+            return @address == object.address
         when "CpNetwork"
             return false
         when "CpRange"

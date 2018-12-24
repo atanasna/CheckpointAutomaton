@@ -18,7 +18,7 @@ start_time = Time.now
     # Load info
         puts
         puts "------>> Loading Files(~50s)"
-        package_handler = PackageHandler.new "objects_5_0_perimeter_original2.c", "perimeter_original2.pol"
+        package_handler = PackageHandler.new "objects_5_0_perimeter_original.c", "perimeter_original.pol"
         #topo = Topographer.new "../topographer/json_graph"
 
     # Colorize

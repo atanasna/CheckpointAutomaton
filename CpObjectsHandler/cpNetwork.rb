@@ -1,5 +1,4 @@
 require "ipaddress"
-require_relative "CpObject.rb"
 
 class CpNetwork < CpObject
     attr_reader :name, :address
@@ -18,27 +17,26 @@ class CpNetwork < CpObject
     end
 
     # Based on address
-    def include? input 
-        case input.class.name
+    def include? object 
+        case object.class.name
         when "IPAddress::IPv4"
-            return @address.include? input
+            return @address.include? object
         when "CpHost"
-            return @address.include? input.address
+            return @address.include? object.address
         when "CpNetwork"
-            return @address.include? input.address
+            return @address.include? object.address
         when "CpRange"
-            return (@address.include? input.first and @address.include? input.last )
+            return (@address.include? object.first and @address.include? object.last )
         when "CpGroup"
-            if input.elements.empty?
+            if object.elements.empty?
                 return false
             end
             
-            input.elements.each do |el|
+            object.expand.each do |el|
                 if not include? el
                     return false
                 end
             end
-
             return true
         else
             return false    
