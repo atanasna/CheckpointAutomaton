@@ -118,15 +118,14 @@ class CpObjectsHandler
             #pp "========== #{group.name} ==========="
             elements_names = group.raw.find_all{|l| l.match(/:Name \(.*?\)/)}
             elements_names.each do |el_name|
-                    el_name = el_name.match(/\((.*?)\)/i).captures.first
-                    #pp el_name
-                    
-                    obj = @objects.find{|n| n.name == el_name}
+                el_name = el_name.match(/\((.*?)\)/i).captures.first
+                #pp el_name
+                
+                obj = @objects.find{|n| n.name == el_name}
 
-                    if not obj.nil?
-                        group.add obj
-                    end
-
+                if not obj.nil?
+                    group.add obj
+                end
             end
         end
     end
@@ -153,7 +152,7 @@ class CpObjectsHandler
 
         @objects.each do |prim_obj|
             duplicates = @objects.find_all{|obj| prim_obj.ip_equal? obj}
-            if not duplicates.empty?
+            if duplicates.any?
                 duplicate_groups.push duplicates.sort
             end
         end

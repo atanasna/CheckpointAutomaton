@@ -62,8 +62,8 @@ end
 ap "For Deletion: #{for_deletion.size}"
 ap "Time: #{Time.now - start_time}"
 
-ap ""
-ap ""
-for_deletion.each do |el|
-    ap el.name
-end
+#ap ""
+#ap ""
+#for_deletion.each do |el|
+#    ap el.name
+#end

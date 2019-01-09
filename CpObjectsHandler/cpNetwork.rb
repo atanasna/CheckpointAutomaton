@@ -17,22 +17,22 @@ class CpNetwork < CpObject
     end
 
     # Based on address
-    def include? object 
-        case object.class.name
+    def include? input 
+        case input.class.name
         when "IPAddress::IPv4"
-            return @address.include? object
+            return @address.include? input
         when "CpHost"
-            return @address.include? object.address
+            return @address.include? input.address
         when "CpNetwork"
-            return @address.include? object.address
+            return @address.include? input.address
         when "CpRange"
-            return (@address.include? object.first and @address.include? object.last )
+            return (@address.include? input.first and @address.include? input.last )
         when "CpGroup"
-            if object.elements.empty?
+            if input.elements.empty?
                 return false
             end
             
-            object.expand.each do |el|
+            input.expand.each do |el|
                 if not include? el
                     return false
                 end

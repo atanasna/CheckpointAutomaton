@@ -19,142 +19,128 @@ class PackageHandler
             load_policy_handler policy_filename
     end
 
-    def load_objects_handler objects_filename
-        if objects_filename.nil?
-            return
-        end
-        start_time = Time.now
-        print "Loading Objects(~10s) . . . "
-        @objects_handler = CpObjectsHandler.new objects_filename
-        puts "OK! - #{Time.now - start_time}s"
-    end
-
-    def load_policy_handler policy_filename
-        if policy_filename.nil?
-            return
-        end
-        start_time = Time.now
-        print "Loading Policy(~40s) . . . "
-
-        @policy_handler = CpPolicyHandler.from_file policy_filename
-
-        all_rules = @policy_handler.rules + @policy_handler.nat_rules
-        all_rules.each do |rule|
-            sources = Array.new
-            destinations = Array.new
-            sources_translated = Array.new
-            destinations_translated = Array.new
-            all = Array.new
-
-            if rule.class.name == "CpPolicyRule"
-                all = rule.sources + rule.destinations
+    # loaders
+        def load_objects_handler objects_filename
+            if objects_filename.nil?
+                return
             end
-            if rule.class.name == "CpPolicyNatRule"
-                all = rule.sources + rule.destinations + rule.sources_translated + rule.destinations_translated
+            start_time = Time.now
+            print "Loading Objects(~10s) . . . "
+            @objects_handler = CpObjectsHandler.new objects_filename
+            puts "OK! - #{Time.now - start_time}s"
+        end
+
+        def load_policy_handler policy_filename
+            if policy_filename.nil?
+                return
             end
-            
-            all.each do |target|
-                if rule.sources.include? target
-                    if target=="Any" then target = "All_Internet" end
-                    sources.push @objects_handler.objects.find{|obj| obj.name==target}
-                end
-                if rule.destinations.include? target
-                    if target=="Any" then target = "All_Internet" end
-                    destinations.push @objects_handler.objects.find{|obj| obj.name==target}
+            start_time = Time.now
+            print "Loading Policy(~40s) . . . "
+
+            @policy_handler = CpPolicyHandler.from_file policy_filename
+
+            all_rules = @policy_handler.rules + @policy_handler.nat_rules
+            all_rules.each do |rule|
+                sources = Array.new
+                destinations = Array.new
+                sources_translated = Array.new
+                destinations_translated = Array.new
+                all = Array.new
+
+                if rule.class.name == "CpPolicyRule"
+                    all = rule.sources + rule.destinations
                 end
                 if rule.class.name == "CpPolicyNatRule"
-                    if rule.sources_translated.include? target
+                    all = rule.sources + rule.destinations + rule.sources_translated + rule.destinations_translated
+                end
+                
+                all.each do |target|
+                    if rule.sources.include? target
                         if target=="Any" then target = "All_Internet" end
-                        sources_translated.push @objects_handler.objects.find{|obj| obj.name==target}
+                        sources.push @objects_handler.objects.find{|obj| obj.name==target}
                     end
-                    if rule.destinations_translated.include? target
+                    if rule.destinations.include? target
                         if target=="Any" then target = "All_Internet" end
-                        destinations_translated.push @objects_handler.objects.find{|obj| obj.name==target}
+                        destinations.push @objects_handler.objects.find{|obj| obj.name==target}
                     end
+                    if rule.class.name == "CpPolicyNatRule"
+                        if rule.sources_translated.include? target
+                            if target=="Any" then target = "All_Internet" end
+                            sources_translated.push @objects_handler.objects.find{|obj| obj.name==target}
+                        end
+                        if rule.destinations_translated.include? target
+                            if target=="Any" then target = "All_Internet" end
+                            destinations_translated.push @objects_handler.objects.find{|obj| obj.name==target}
+                        end
+                    end
+                end
+
+                rule.sources = sources
+                rule.destinations = destinations
+                if rule.class.name == "CpPolicyNatRule"
+                    rule.sources_translated = sources_translated
+                    rule.destinations_translated = destinations_translated
+                end
+            end
+            puts "OK! - #{Time.now - start_time}s"
+        end
+
+    # helpers
+    def find_unused_objects_in_policy
+        unused_objects = Array.new
+        @objects_handler.objects.each do |object|
+            used = false
+            #checking if used in policy
+            @policy_handler.entries.each do |entry|
+                if entry.respond_to?('sources') and entry.sources.include? object
+                    used = true
+                    break
+                end
+                if entry.respond_to?('destinations') and entry.destinations.include? object
+                    used = true
+                    break
+                end
+                if entry.respond_to?('sources_translated') and entry.sources_translated.include? object
+                    used = true
+                    break
+                end
+                if entry.respond_to?('destinations_translated') and entry.destinations_translated.include? object
+                    used = true
+                    break
                 end
             end
 
-            rule.sources = sources
-            rule.destinations = destinations
-            if rule.class.name == "CpPolicyNatRule"
-                rule.sources_translated = sources_translated
-                rule.destinations_translated = destinations_translated
+            if not used
+                unused_objects.push object
             end
-        end
-        puts "OK! - #{Time.now - start_time}s"
+        end     
+
+        return unused_objects
     end
-
-    #comment
-        #def find_rules lookups, in_src=true, in_dst=false
-        #    rules = Array.new
-        #    @policy_handler.rules.each do |rule|
-        #        lookups.each do |lookup|
-        #            if in_src
-        #                if rule.sources.find{|source| source.include? lookup}
-        #                    rules.push rule
-        #                end
-        #            end
-        #            if in_dst
-        #                if rule.destinations.find{|destination| destination.include? lookup}
-        #                    rules.push rule
-        #                end
-        #            end
-        #        end
-        #    end
-        #    return rules.uniq.sort
-        #end
-
-        def find_unused_objects_in_policy
-            unused_objects = Array.new
-            @objects_handler.objects.each do |object|
-                used = false
-                @policy_handler.entries.each do |entry|
-                   
-                    if entry.respond_to?('sources') and entry.sources.include? object
-                        used = true
-                        break
-                    end
-                    if entry.respond_to?('destinations') and entry.destinations.include? object
-                        used = true
-                        break
-                    end
-                    if entry.respond_to?('sources_translated') and entry.sources_translated.include? object
-                        used = true
-                        break
-                    end
-                    if entry.respond_to?('destinations_translated') and entry.destinations_translated.include? object
-                        used = true
-                        break
-                    end
-                end
-
-                if not used
-                    unused_objects.push object
-                end
-            end
-
-            
-            return unused_objects
-        end
 
     # Modifiers
         #independent
         def colorize
             puts "------>> Colorizing(~5s)"
             print "coloring all . . . "
-            puts "OK! - #{@objects_handler.colorize [IPAddress("0.0.0.0/0")], "firebrick"} objects colored in firebrick"
+            @objects_handler.colorize [IPAddress("0.0.0.0/0")], "firebrick"
+            puts "OK! - Firebrick"
 
             print "coloring core . . . "
-            puts "OK! - #{@objects_handler.colorize $dc_subnets, "olive"} objects colored in olive"
+            @objects_handler.colorize $dc_subnets, "olive"
+            puts "OK! - Olive"
 
             print "coloring dmz . . . "
-            puts "OK! - #{@objects_handler.colorize $dmz_subnets, "orange"} objects colored in orange"
+            @objects_handler.colorize $dmz_subnets, "orange"
+            puts "OK! - Orange"
 
             print "coloring office . . . "
-            puts "OK! - #{@objects_handler.colorize $office_subnets, "gold"} objects colored in gold"
+            @objects_handler.colorize $office_subnets, "gold"
+            puts "OK! - Gold"
 
             print "coloring roadWarriors . . . "
-            puts "OK! - #{@objects_handler.colorize $rw_subnets, "dark gold"} objects colored in dark gold"
+            @objects_handler.colorize $rw_subnets, "dark gold"
+            puts "OK! - Dark gold"
         end
         #independent
         def remove_duplicates
@@ -288,6 +274,7 @@ class PackageHandler
             end
             puts "OK! - #{filename}"
         end
+
     # Statistics
         def print_policy_stats
             puts "------>> Policy Statistics"
@@ -319,25 +306,11 @@ class PackageHandler
 
         def print_color_stats
             puts "------>> Coloring Statistics"
-            ap "Firebrick-Hosts: #{@objects_handler.objects.find_all{|obj| obj.color=="firebrick" and obj.class.name=="CpHost"}.size}"
-            ap "Firebrick-Networks: #{@objects_handler.objects.find_all{|obj| obj.color=="firebrick" and obj.class.name=="CpNetwork"}.size}"
-            ap "Firebrick-Ranges: #{@objects_handler.objects.find_all{|obj| obj.color=="firebrick" and obj.class.name=="CpRange"}.size}"
-            ap "Firebrick-Groups: #{@objects_handler.objects.find_all{|obj| obj.color=="firebrick" and obj.class.name=="CpGroup"}.size}"
-            ap "--"
-            ap "Olive-Hosts: #{@objects_handler.objects.find_all{|obj| obj.color=="\"olive drab\"" and obj.class.name=="CpHost"}.size}"
-            ap "Olive-Networks: #{@objects_handler.objects.find_all{|obj| obj.color=="\"olive drab\"" and obj.class.name=="CpNetwork"}.size}"
-            ap "Olive-Ranges: #{@objects_handler.objects.find_all{|obj| obj.color=="\"olive drab\"" and obj.class.name=="CpRange"}.size}"
-            ap "Olive-Groups: #{@objects_handler.objects.find_all{|obj| obj.color=="\"olive drab\"" and obj.class.name=="CpGroup"}.size}"
-            ap "--"
-            ap "Orange-Hosts: #{@objects_handler.objects.find_all{|obj| obj.color=="orange" and obj.class.name=="CpHost"}.size}"
-            ap "Orange-Networks: #{@objects_handler.objects.find_all{|obj| obj.color=="orange" and obj.class.name=="CpNetwork"}.size}"
-            ap "Orange-Ranges: #{@objects_handler.objects.find_all{|obj| obj.color=="orange" and obj.class.name=="CpRange"}.size}"
-            ap "Orange-Groups: #{@objects_handler.objects.find_all{|obj| obj.color=="orange" and obj.class.name=="CpGroup"}.size}"
-            ap "--"
-            ap "Gold-Hosts: #{@objects_handler.objects.find_all{|obj| obj.color=="gold" and obj.class.name=="CpHost"}.size}"
-            ap "Gold-Networks: #{@objects_handler.objects.find_all{|obj| obj.color=="gold" and obj.class.name=="CpNetwork"}.size}"
-            ap "Gold-Ranges: #{@objects_handler.objects.find_all{|obj| obj.color=="gold" and obj.class.name=="CpRange"}.size}"
-            ap "Gold-Groups: #{@objects_handler.objects.find_all{|obj| obj.color=="gold" and obj.class.name=="CpGroup"}.size}"
+            ap "Core(Olive): #{@objects_handler.objects.find_all{|obj| obj.color=="\"olive drab\""}.size}"
+            ap "DMZ(Orange): #{@objects_handler.objects.find_all{|obj| obj.color=="orange"}.size}"
+            ap "Office(Gold): #{@objects_handler.objects.find_all{|obj| obj.color=="gold"}.size}"
+            ap "RemoteVPN(Dark Gold): #{@objects_handler.objects.find_all{|obj| obj.color=="gold3"}.size}"
+            ap "EverythingElse(Firebrick): #{@objects_handler.objects.find_all{|obj| obj.color=="firebrick"}.size}"
         end
 end
 
