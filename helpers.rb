@@ -7,15 +7,12 @@ module ParserHelpers
         #debug if debug then pp lines end
 
         match_start = lines.find{ |l| l.match(/^\t+:#{tag} \(/)}
-
+        if match_start.nil? then return tags_contents end
         #debug
-        if debug then pp match_start end 
-
         indent = match_start.match(/^\t+/).to_s.scan(/\t/).size
         match_start = lines.find{ |l| l[/^\t{#{indent}}:#{tag} \(/]}
-        if match_start.match(/\(.*?\)/)
-            oneliner = true
-        end
+        if match_start.match(/\(.*?\)/) then oneliner = true end
+
 
         #debug
         if debug then pp oneliner end
@@ -39,7 +36,7 @@ module ParserHelpers
                     break
                 else
                     tag_tabs_count = lines[tag_start_index].match(/^\t+/).to_s.scan(/\t/).size
-                    lines = lines.slice tag_start_index+1, (lines.count-1)
+                    lines = lines.slice tag_start_index, (lines.count-1)
 
                     match_end = lines.find{ |l| l[/^\t{#{tag_tabs_count}}\)/]}
                     tag_end_index = lines.index(match_end)
@@ -49,7 +46,6 @@ module ParserHelpers
                 end
             end
         end
-        
         return tags_contents
     end
 end

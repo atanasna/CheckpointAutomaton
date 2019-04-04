@@ -20,8 +20,18 @@ class CpPolicyRule < CpPolicyEntry
 
     end
 
-    def comment=val
-        @comment = val
+    def name=value
+        @name = value
+        @raw.find{|l| l.match(/:name/)}.gsub!(/\(.*?\)/,"(#{@name})")
+        return true
+    end
+
+    def name
+        return @name
+    end
+
+    def comment=value
+        @comment = value
         @raw.find{|l| l.match(/comment/)}.gsub!(/\(.*?\)/,"(#{@comment})")
         return true
     end

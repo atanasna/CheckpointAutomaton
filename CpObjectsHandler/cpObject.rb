@@ -1,5 +1,5 @@
 class CpObject
-    attr_accessor :name, :raw
+    attr_accessor :raw
 
     def initialize name
         @name = name
@@ -53,7 +53,22 @@ class CpObject
         return @raw.find{|line| line.match(/:color/)}.match(/\((.*?)\)/i).captures.first
     end
 
+    def name=new_name
+        raw.each do |line|
+            line.gsub!("#{@name}","#{new_name}")
+        end
+        @name = new_name
+    end   
+
+    def name
+        return @name
+    end 
+    
     def ip_equal? input
+        return false
+    end
+
+    def ip_include? input
         return false
     end
 
